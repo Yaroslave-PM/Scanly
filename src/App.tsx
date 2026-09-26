@@ -137,81 +137,62 @@ export default function App() {
   const favoritesCount = products.filter((p) => p.isFavorite).length;
 
   return (
-    <div className="min-h-screen relative overflow-x-hidden bg-linear-to-b from-[#E7EFE6] via-[#EFF6EE] to-[#DEEAD9] text-[#162B16] selection:bg-[#4A7A45] selection:text-white flex flex-col items-center justify-start">
-      {/* Organic Botanical Ambient Backdrop (Simulating the soft depth-of-field foliage in the reference) */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        {/* Soft leaf silhouettes and ambient light blobs */}
-        <div className="absolute -top-24 -left-20 w-96 h-96 rounded-full bg-[#7CA875]/35 blur-[90px]" />
-        <div className="absolute top-1/4 -right-24 w-96 h-96 rounded-full bg-[#9AC492]/30 blur-[100px]" />
-        <div className="absolute top-2/3 -left-28 w-[420px] h-[420px] rounded-full bg-[#52844D]/25 blur-[110px]" />
-        <div className="absolute -bottom-20 right-10 w-96 h-96 rounded-full bg-[#A2CCA0]/35 blur-[95px]" />
-        
-        {/* Subtle decorative leaf shapes */}
-        <svg
-          className="absolute -top-12 -right-12 w-80 h-80 opacity-20 text-[#3F6B38] filter blur-xl"
-          viewBox="0 0 200 200"
-          fill="currentColor"
-        >
-          <path d="M45,-78.3C57.4,-70.8,65.8,-56.9,72.9,-42.6C80,-28.3,85.8,-13.6,84.9,0.5C83.9,14.6,76.3,28.2,67.6,40.9C58.8,53.6,49,65.4,36.5,72.6C24,79.8,8.8,82.4,-6.5,80.5C-21.8,78.6,-37.2,72.2,-49.6,63.1C-62,54,-71.4,42.2,-77.6,28.8C-83.8,15.4,-86.8,0.4,-83.4,-13C-80,-26.4,-70.2,-38.2,-58.8,-46.8C-47.4,-55.4,-34.4,-60.8,-21.5,-68.2C-8.6,-75.6,4.2,-85,19.3,-85.7C34.4,-86.4,51.8,-78.4,45,-78.3Z" transform="translate(100 100)" />
-        </svg>
-
-        <svg
-          className="absolute top-1/2 -left-24 w-96 h-96 opacity-15 text-[#2C5226] filter blur-2xl"
-          viewBox="0 0 200 200"
-          fill="currentColor"
-        >
-          <path d="M37.8,-64.7C49.9,-58.5,61.4,-50,68.9,-38.6C76.4,-27.2,79.9,-12.9,79.3,1.4C78.7,15.7,74,30.1,65.8,42.4C57.6,54.7,45.9,64.9,32.7,70.8C19.5,76.7,4.8,78.3,-10.1,76.5C-25,74.7,-40.1,69.5,-52.1,60.3C-64.1,51.1,-73,37.9,-77.9,23.3C-82.8,8.7,-83.7,-7.3,-78.6,-21.7C-73.5,-36.1,-62.4,-48.9,-49.3,-54.9C-36.2,-60.9,-21.1,-60.1,-6.6,-59.8C7.9,-59.5,25.7,-70.9,37.8,-64.7Z" transform="translate(100 100)" />
-        </svg>
+    <div className="min-h-screen relative overflow-x-hidden bg-[#EBF2E8] text-[#0B190A] flex flex-col items-center justify-start">
+      {/* Dynamic Nature Glass Ambient Background Orbs */}
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-lg h-full pointer-events-none overflow-hidden z-0">
+        <div className="absolute top-10 -left-20 w-80 h-80 rounded-full bg-[#B2D6A4]/35 blur-[90px]" />
+        <div className="absolute top-1/3 -right-24 w-96 h-96 rounded-full bg-[#D8FF4F]/20 blur-[100px]" />
+        <div className="absolute bottom-20 left-10 w-80 h-80 rounded-full bg-[#82B379]/30 blur-[90px]" />
       </div>
 
-      {/* Top Banner for Desktop Testers (Frosted glass strip) */}
-      <div className="w-full glass-card py-2 px-4 flex items-center justify-between text-xs border-b border-white/60 z-50 sticky top-0 shadow-xs">
-        <div className="flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#4A7A45] ring-2 ring-white animate-pulse" />
-          <span className="font-extrabold tracking-wider text-xs text-[#1D3D1B]">
-            SCANLY
+      {/* Top Bar for Desktop Testers */}
+      <header className="w-full glass-card py-2.5 px-4 flex items-center justify-between text-xs border-b border-white/70 z-50 sticky top-0 shadow-xs">
+        <div className="flex items-center gap-2.5">
+          <span className="w-3 h-3 rounded-full bg-[#254F22] ring-2 ring-[#D8FF4F]" />
+          <span className="font-black tracking-tight text-sm text-[#071707]">
+            Scanly
           </span>
-          <span className="hidden sm:inline text-[#769374]">·</span>
-          <span className="hidden sm:inline text-[#4A6348] font-medium">
-            Персональный ассистент при покупке продуктов
+          <span className="hidden sm:inline text-[#4F754A]">/</span>
+          <span className="hidden sm:inline text-[#274426] font-semibold">
+            Персональный ассистент покупателя
           </span>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <button
             onClick={() => setIsOnboardingOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1 rounded-full glass-pill hover:bg-white/80 text-[#294827] font-semibold transition-all shadow-xs"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full glass-pill hover:bg-white text-[#0E260D] font-bold shadow-xs transition-all"
           >
-            <Info className="w-3.5 h-3.5 text-[#4A7A45]" />
+            <Info className="w-3.5 h-3.5 text-[#254F22]" />
             <span className="hidden xs:inline">Как это работает</span>
           </button>
 
           <button
             onClick={() => setIsPhoneFrameMode(!isPhoneFrameMode)}
-            className="flex items-center gap-1.5 px-3 py-1 rounded-full glass-pill hover:bg-white/80 text-[#1D3D1B] font-semibold transition-all shadow-xs"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full glass-pill hover:bg-white text-[#0E260D] font-bold shadow-xs transition-all"
             title="Переключить рамку смартфона"
           >
             {isPhoneFrameMode ? (
               <>
-                <Monitor className="w-3.5 h-3.5 text-[#4A7A45]" />
-                <span className="text-[11px]">На весь экран</span>
+                <Monitor className="w-3.5 h-3.5 text-[#254F22]" />
+                <span className="text-xs">Широкий экран</span>
               </>
             ) : (
               <>
-                <Smartphone className="w-3.5 h-3.5 text-[#4A7A45]" />
-                <span className="text-[11px]">Режим смартфона</span>
+                <Smartphone className="w-3.5 h-3.5 text-[#254F22]" />
+                <span className="text-xs">Рамка смартфона</span>
               </>
             )}
           </button>
         </div>
-      </div>
+      </header>
 
-      {/* Main Container (Responsive Mobile Canvas) */}
+      {/* Main Container */}
       <main
         className={`w-full relative z-10 transition-all duration-300 ${
           isPhoneFrameMode
-            ? 'max-w-[420px] my-5 rounded-[44px] shadow-[0_25px_60px_rgba(20,45,22,0.22)] border-[10px] border-white/80 glass-card min-h-[850px] overflow-hidden'
-            : 'max-w-md mx-auto px-4 py-4'
+            ? 'max-w-[420px] my-6 rounded-[44px] shadow-[0_24px_60px_rgba(20,50,22,0.18)] border-4 border-white/90 bg-[#EBF2E8] min-h-[850px] overflow-hidden p-4 ring-1 ring-black/5'
+            : 'max-w-md mx-auto px-4 py-5'
         }`}
       >
         {/* Onboarding Modal */}
@@ -337,7 +318,7 @@ export default function App() {
           </>
         )}
 
-        {/* Floating Bottom Nav (hidden in scanner or recognition view for immersive experience) */}
+        {/* Floating Glass Bottom Nav */}
         {activeView !== 'scanner' && activeView !== 'recognition' && (
           <BottomNavBar
             activeTab={activeTab}

@@ -4,7 +4,6 @@ import {
   Camera,
   X,
   Upload,
-  CheckCircle2,
 } from 'lucide-react';
 import { Product, Review } from '../data/products';
 
@@ -69,39 +68,39 @@ export const WriteReviewModal: React.FC<WriteReviewModalProps> = ({
       onSubmitReview(newReview);
       setIsSubmitting(false);
       onClose();
-    }, 400);
+    }, 350);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/40 backdrop-blur-xl animate-fade-in">
-      <div className="w-full max-w-lg glass-card rounded-t-[36px] sm:rounded-[36px] p-6 shadow-2xl border border-white/80 max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/45 backdrop-blur-xl animate-fade-in">
+      <div className="w-full max-w-lg glass-card rounded-t-[36px] sm:rounded-[36px] p-6 sm:p-7 shadow-2xl border border-white/90 max-h-[90vh] overflow-y-auto">
         <div className="w-10 h-1.5 bg-slate-300 rounded-full mx-auto mb-4 sm:hidden" />
 
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-white/60 mb-4">
-          <div>
-            <span className="text-[10px] font-bold text-[#6D8C6B] uppercase tracking-wider">
+        <div className="flex items-center justify-between pb-3.5 border-b border-white/70 mb-4.5">
+          <div className="space-y-0.5">
+            <span className="text-xs font-bold text-[#355733] uppercase tracking-wider">
               Новый отзыв
             </span>
-            <h3 className="text-base font-black text-[#142C12] truncate max-w-[280px]">
+            <h3 className="text-base sm:text-lg font-black text-[#071707] truncate max-w-[280px]">
               {product.name}
             </h3>
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full glass-pill flex items-center justify-center text-[#234521] hover:bg-white transition-colors"
+            className="w-9 h-9 rounded-full glass-pill flex items-center justify-center text-[#071707] hover:bg-white active:scale-95 transition-all"
           >
-            <X className="w-4 h-4" />
+            <X className="w-4.5 h-4.5" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-3.5">
+        <form onSubmit={handleSubmit} className="space-y-4">
           {/* Rating Stars Card */}
-          <div className="glass-card p-4 rounded-2xl border border-white/80 text-center shadow-xs">
-            <label className="block text-xs font-bold text-[#142C12] mb-2">
+          <div className="glass-card p-5 rounded-2xl border border-white/90 text-center shadow-xs">
+            <label className="block text-xs font-extrabold text-[#071707] mb-2.5 uppercase tracking-wider">
               Ваша оценка товару
             </label>
-            <div className="flex items-center justify-center gap-2">
+            <div className="flex items-center justify-center gap-2.5">
               {[1, 2, 3, 4, 5].map((star) => {
                 const active = (hoverRating || rating) >= star;
                 return (
@@ -124,7 +123,7 @@ export const WriteReviewModal: React.FC<WriteReviewModalProps> = ({
                 );
               })}
             </div>
-            <div className="text-xs font-semibold text-[#547352] mt-2">
+            <div className="text-xs sm:text-sm font-bold text-[#204E1E] mt-2.5">
               {rating === 5 && '🔥 Отличный товар, рекомендую!'}
               {rating === 4 && '👍 Хорошо, но есть мелкие замечания'}
               {rating === 3 && '😐 Нормально, на любителя'}
@@ -134,48 +133,42 @@ export const WriteReviewModal: React.FC<WriteReviewModalProps> = ({
           </div>
 
           {/* Review Text */}
-          <div className="glass-card p-4 rounded-2xl border border-white/80 space-y-2 shadow-xs">
-            <label className="block text-xs font-bold text-[#142C12]">
+          <div className="glass-card p-4.5 rounded-2xl border border-white/90 space-y-2 shadow-xs">
+            <label className="block text-xs font-extrabold text-[#071707] uppercase tracking-wider">
               Текст отзыва
             </label>
             <textarea
-              required
               rows={3}
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder="Расскажите о вкусе, качестве, упаковке и стоит ли брать за эту цену..."
-              className="w-full text-xs sm:text-sm p-3 rounded-xl glass-input focus:bg-white/80 focus:outline-none placeholder:text-[#789676] text-[#142C12]"
+              placeholder="Опишите вкус, свежесть, консистенцию и реальные впечатления..."
+              required
+              className="w-full p-3 rounded-xl glass-input text-xs sm:text-sm text-[#071707] placeholder:text-[#4A6E48] font-medium outline-none focus:border-[#254F22] resize-none"
             />
           </div>
 
-          {/* Price & Store Row */}
+          {/* Price Paid and Store Pickers */}
           <div className="grid grid-cols-2 gap-3">
-            <div className="glass-card p-3 rounded-2xl border border-white/80 space-y-1 shadow-xs">
-              <label className="block text-[11px] font-bold text-[#142C12]">
-                Цена покупки (₽)
+            <div className="glass-card p-4 rounded-2xl border border-white/90 space-y-1.5 shadow-xs">
+              <label className="block text-xs font-bold text-[#355733]">
+                Цена покупки, ₽
               </label>
-              <div className="relative">
-                <input
-                  type="number"
-                  required
-                  value={pricePaid}
-                  onChange={(e) => setPricePaid(Number(e.target.value))}
-                  className="w-full h-10 px-3 pr-7 rounded-xl glass-input text-sm font-black text-[#142C12] focus:outline-none"
-                />
-                <span className="absolute right-2.5 top-2.5 text-xs text-[#6F8E6D] font-bold">
-                  ₽
-                </span>
-              </div>
+              <input
+                type="number"
+                value={pricePaid}
+                onChange={(e) => setPricePaid(Number(e.target.value))}
+                className="w-full h-11 px-3 rounded-xl glass-input text-base font-black text-[#071707] outline-none"
+              />
             </div>
 
-            <div className="glass-card p-3 rounded-2xl border border-white/80 space-y-1 shadow-xs">
-              <label className="block text-[11px] font-bold text-[#142C12]">
-                Где купили?
+            <div className="glass-card p-4 rounded-2xl border border-white/90 space-y-1.5 shadow-xs">
+              <label className="block text-xs font-bold text-[#355733]">
+                Где покупали
               </label>
               <select
                 value={store}
                 onChange={(e) => setStore(e.target.value)}
-                className="w-full h-10 px-2 rounded-xl glass-input text-xs font-bold text-[#142C12] focus:outline-none cursor-pointer"
+                className="w-full h-11 px-3 rounded-xl glass-input text-xs sm:text-sm font-bold text-[#071707] outline-none cursor-pointer"
               >
                 {storesList.map((s) => (
                   <option key={s} value={s}>
@@ -186,65 +179,53 @@ export const WriteReviewModal: React.FC<WriteReviewModalProps> = ({
             </div>
           </div>
 
-          {/* Photo Upload */}
-          <div className="glass-card p-3.5 rounded-2xl border border-white/80 shadow-xs">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[11px] font-bold text-[#142C12]">
-                Фотографии товара ({photos.length}/3)
+          {/* Photo Attachments */}
+          <div className="glass-card p-4 rounded-2xl border border-white/90 space-y-2.5 shadow-xs">
+            <div className="flex items-center justify-between text-xs">
+              <span className="font-extrabold text-[#071707] flex items-center gap-1.5">
+                <Camera className="w-4 h-4 text-[#254F22]" />
+                <span>Фото товара или чека:</span>
               </span>
+              <span className="text-[#355733] text-[11px] font-semibold">
+                Повышает доверие к отзыву
+              </span>
+            </div>
+
+            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pt-1">
               <button
                 type="button"
                 onClick={handleAddSamplePhoto}
-                className="text-[11px] font-bold text-[#355F32] hover:text-[#183416] flex items-center gap-1"
+                className="w-16 h-16 rounded-xl border-2 border-dashed border-[#254F22]/40 glass-pill hover:bg-white/80 flex flex-col items-center justify-center text-[#254F22] text-[10px] font-bold gap-1 shrink-0 transition-colors"
               >
-                <Camera className="w-3.5 h-3.5" />
-                <span>Добавить фото</span>
+                <Upload className="w-4 h-4" />
+                <span>Добавить</span>
               </button>
-            </div>
 
-            {photos.length === 0 ? (
-              <div
-                onClick={handleAddSamplePhoto}
-                className="h-16 rounded-xl border border-dashed border-white/80 glass-pill flex items-center justify-center gap-2 text-xs text-[#5D7B5B] cursor-pointer hover:bg-white/80 transition-all"
-              >
-                <Upload className="w-4 h-4 text-[#5D7B5B]" />
-                <span>Прикрепить фото упаковки или чека</span>
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                {photos.map((p, idx) => (
-                  <div key={idx} className="relative w-14 h-14 rounded-xl overflow-hidden bg-white/40 border border-white/80 shadow-xs">
-                    <img src={p} alt="Прикрепленное фото" className="w-full h-full object-cover" />
-                    <button
-                      type="button"
-                      onClick={() => setPhotos(photos.filter((_, i) => i !== idx))}
-                      className="absolute top-0.5 right-0.5 w-4 h-4 rounded-full bg-black/70 text-white flex items-center justify-center text-[10px]"
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-                {photos.length < 3 && (
+              {photos.map((p, idx) => (
+                <div
+                  key={idx}
+                  className="relative w-16 h-16 rounded-xl overflow-hidden bg-white/50 border border-white/90 shrink-0"
+                >
+                  <img src={p} alt="Фото к отзыву" className="w-full h-full object-cover" />
                   <button
                     type="button"
-                    onClick={handleAddSamplePhoto}
-                    className="w-14 h-14 rounded-xl border border-dashed border-white/80 glass-pill flex items-center justify-center text-[#597857] hover:bg-white text-xs"
+                    onClick={() => setPhotos(photos.filter((_, i) => i !== idx))}
+                    className="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/60 text-white flex items-center justify-center text-[10px]"
                   >
-                    +
+                    ×
                   </button>
-                )}
-              </div>
-            )}
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Submit Button */}
           <button
             type="submit"
             disabled={isSubmitting || !text.trim()}
-            className="w-full h-13 rounded-2xl bg-linear-to-r from-[#4A7A45] to-[#2E522B] text-white font-bold text-sm flex items-center justify-center gap-2 hover:shadow-[0_8px_20px_rgba(45,85,41,0.3)] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+            className="w-full h-13 rounded-2xl bg-linear-to-r from-[#254F22] to-[#142D12] text-white font-extrabold text-sm flex items-center justify-center gap-2 hover:shadow-[0_8px_24px_rgba(25,58,23,0.35)] active:scale-[0.98] disabled:opacity-50 transition-all shadow-md"
           >
-            <CheckCircle2 className="w-4 h-4" />
-            <span>{isSubmitting ? 'Публикуем...' : 'Опубликовать отзыв'}</span>
+            <span>{isSubmitting ? 'Публикация...' : 'Опубликовать отзыв'}</span>
           </button>
         </form>
       </div>

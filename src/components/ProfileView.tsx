@@ -48,98 +48,98 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
   };
 
   return (
-    <div className="space-y-4 pb-28">
+    <div className="space-y-4.5 pb-28">
       {/* Profile Header Glass Card */}
-      <div className="glass-card rounded-[32px] p-6 border border-white/80 shadow-md">
+      <div className="glass-card rounded-[32px] p-6 border border-white/90 shadow-md">
         <div className="flex items-center gap-4 mb-5">
-          <div className="relative w-18 h-18 rounded-3xl bg-linear-to-tr from-[#3A6435] to-[#4F8349] text-white flex items-center justify-center font-black text-2xl shadow-md border border-white/50">
+          <div className="relative w-18 h-18 rounded-3xl bg-linear-to-tr from-[#254F22] to-[#3C6E38] text-white flex items-center justify-center font-black text-2xl shadow-md border border-white/60">
             Я
             <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#D8FF4F] ring-2 ring-white flex items-center justify-center text-[#071304] shadow-xs">
               <ShieldCheck className="w-4 h-4 stroke-[2.5]" />
             </div>
           </div>
 
-          <div>
+          <div className="space-y-0.5">
             <div className="flex items-center gap-2">
-              <h2 className="text-xl font-black text-[#142C12]">
+              <h2 className="text-xl sm:text-2xl font-black text-[#071707]">
                 Ярослав
               </h2>
-              <span className="px-2 py-0.5 rounded-full bg-[#4A7A45] text-white text-[9px] font-black uppercase tracking-wider shadow-xs">
+              <span className="px-2 py-0.5 rounded-full bg-[#254F22] text-white text-[10px] font-black uppercase tracking-wider shadow-xs">
                 PRO
               </span>
             </div>
-            <div className="text-xs text-[#628160] font-medium">@yarke</div>
-            <div className="flex items-center gap-1.5 text-xs text-[#284C25] font-bold mt-1">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#4A7A45]" />
+            <div className="text-xs text-[#355733] font-semibold">@yarke</div>
+            <div className="flex items-center gap-1.5 text-xs text-[#204E1E] font-bold pt-0.5">
+              <ShieldCheck className="w-4 h-4 text-[#254F22]" />
               <span>Проверенный покупатель</span>
             </div>
           </div>
         </div>
 
         {/* Reputation & Engagement Stats (3 Inset Frosted Tiles) */}
-        <div className="grid grid-cols-3 gap-2.5 p-3 rounded-2xl glass-pill shadow-xs text-center">
+        <div className="grid grid-cols-3 gap-2.5 p-3.5 rounded-2xl glass-pill shadow-xs text-center border border-white/90">
           <div>
-            <div className="text-xl font-black text-[#142C12] tabular-nums">47</div>
-            <div className="text-[10px] text-[#5D7A5C] font-semibold">отзывов</div>
+            <div className="text-xl sm:text-2xl font-black text-[#071707] tabular-nums">47</div>
+            <div className="text-xs text-[#355733] font-bold">отзывов</div>
           </div>
 
-          <div className="border-x border-white/60">
-            <div className="text-xl font-black text-[#142C12] tabular-nums">1.2k</div>
-            <div className="text-[10px] text-[#5D7A5C] font-semibold">полезных</div>
+          <div className="border-x border-white/80">
+            <div className="text-xl sm:text-2xl font-black text-[#071707] tabular-nums">1.2k</div>
+            <div className="text-xs text-[#355733] font-bold">полезных</div>
           </div>
 
           <div>
-            <div className="text-xl font-black text-[#142C12] tabular-nums flex items-center justify-center gap-0.5">
+            <div className="text-xl sm:text-2xl font-black text-[#071707] tabular-nums flex items-center justify-center gap-1">
               <span>4.8</span>
-              <Star className="w-3 h-3 fill-amber-400 text-amber-400 inline" />
+              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400 inline" />
             </div>
-            <div className="text-[10px] text-[#5D7A5C] font-semibold">рейтинг</div>
+            <div className="text-xs text-[#355733] font-bold">рейтинг</div>
           </div>
         </div>
       </div>
 
       {/* Trust & Reputation Card (Frosted Emerald Glass) */}
-      <div className="p-4 rounded-3xl glass-card-dark text-white shadow-md border border-white/20">
+      <div className="p-5 rounded-3xl glass-card-dark text-white shadow-md border border-white/20">
         <div className="flex items-start justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-2xl bg-[#D8FF4F] text-[#071304] flex items-center justify-center font-bold shadow-xs">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-[#D8FF4F] text-[#071304] flex items-center justify-center font-bold shadow-xs">
               <Award className="w-5 h-5 stroke-[2.2]" />
             </div>
             <div>
-              <div className="text-sm font-bold text-white">Репутация покупателя</div>
-              <div className="text-xs text-emerald-200">Уровень доверия: Высокий (4.8 / 5.0)</div>
+              <div className="text-sm font-extrabold text-white">Репутация покупателя</div>
+              <div className="text-xs text-emerald-200 font-medium">Уровень доверия: Высокий (4.8 / 5.0)</div>
             </div>
           </div>
 
           <button
             onClick={() => setShowReputationInfo(!showReputationInfo)}
-            className="text-xs font-bold text-[#D8FF4F] underline hover:text-white"
+            className="text-xs font-bold text-[#D8FF4F] underline hover:text-white px-2 py-1"
           >
             {showReputationInfo ? 'Скрыть' : 'Инфо'}
           </button>
         </div>
 
         {showReputationInfo && (
-          <p className="text-xs text-emerald-100/90 mt-3 pt-3 border-t border-white/10 leading-relaxed font-normal">
+          <p className="text-xs sm:text-sm text-emerald-100 mt-3 pt-3 border-t border-white/15 leading-relaxed font-normal">
             В Scanly оценки покупателей ранжируются по полезности. Отзывы пользователей с подтвержденными ценами и чеками получают приоритет в AI-сводках и защищают от накруток.
           </p>
         )}
       </div>
 
       {/* Preferences & Settings Section in Frosted Glass */}
-      <div className="glass-card rounded-[32px] p-5 border border-white/80 shadow-md space-y-4">
-        <h3 className="text-xs font-black text-[#142C12] uppercase tracking-wider">
+      <div className="glass-card rounded-[32px] p-5 sm:p-6 border border-white/90 shadow-md space-y-4.5">
+        <h3 className="text-xs font-black text-[#071707] uppercase tracking-wider">
           Персонализация покупок
         </h3>
 
         {/* Favorite Stores Toggles */}
         <div className="space-y-2">
           <div className="flex items-center justify-between text-xs">
-            <span className="font-bold text-[#142C12] flex items-center gap-1.5">
-              <Store className="w-4 h-4 text-[#4A7A45]" />
+            <span className="font-extrabold text-[#071707] flex items-center gap-1.5">
+              <Store className="w-4 h-4 text-[#254F22]" />
               <span>Любимые магазины:</span>
             </span>
-            <span className="text-[#6C8A6A] text-[10px]">
+            <span className="text-[#355733] text-xs font-semibold">
               Приоритет сравнения
             </span>
           </div>
@@ -151,10 +151,10 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
                 <button
                   key={st}
                   onClick={() => toggleStore(st)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all shadow-xs ${
+                  className={`px-4 py-2 rounded-full text-xs font-extrabold transition-all shadow-xs ${
                     active
                       ? 'glass-pill-active'
-                      : 'glass-pill text-[#547452] hover:bg-white'
+                      : 'glass-pill text-[#244522] hover:bg-white'
                   }`}
                 >
                   {active ? '✓ ' : '+ '}
@@ -168,27 +168,27 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
         {/* City Selector Row */}
         <div
           onClick={onOpenCityModal}
-          className="flex items-center justify-between p-3 rounded-2xl glass-pill cursor-pointer hover:bg-white/80 transition-all shadow-xs"
+          className="flex items-center justify-between p-3.5 rounded-2xl glass-pill cursor-pointer hover:bg-white/90 active:scale-[0.99] transition-all shadow-xs border border-white/90"
         >
           <div className="flex items-center gap-3">
-            <MapPin className="w-4 h-4 text-[#4A7A45]" />
+            <MapPin className="w-4.5 h-4.5 text-[#254F22]" />
             <div>
-              <div className="text-xs font-bold text-[#142C12]">Ваш город</div>
-              <div className="text-[11px] text-[#597857]">{selectedCity}</div>
+              <div className="text-xs font-extrabold text-[#071707]">Ваш город</div>
+              <div className="text-xs text-[#355733] font-semibold">{selectedCity}</div>
             </div>
           </div>
-          <ChevronRight className="w-4 h-4 text-[#6A8868]" />
+          <ChevronRight className="w-4 h-4 text-[#254F22]" />
         </div>
 
         {/* Notifications Toggle */}
-        <div className="flex items-center justify-between p-3 rounded-2xl glass-pill shadow-xs">
+        <div className="flex items-center justify-between p-3.5 rounded-2xl glass-pill shadow-xs border border-white/90">
           <div className="flex items-center gap-3">
-            <Bell className="w-4 h-4 text-[#4A7A45]" />
+            <Bell className="w-4.5 h-4.5 text-[#254F22]" />
             <div>
-              <div className="text-xs font-bold text-[#142C12]">
+              <div className="text-xs font-extrabold text-[#071707]">
                 Уведомления о снижении цен
               </div>
-              <div className="text-[11px] text-[#597857]">
+              <div className="text-xs text-[#355733] font-medium">
                 Сообщать, когда избранный товар подешевеет
               </div>
             </div>
@@ -197,7 +197,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
           <button
             onClick={() => setNotificationsEnabled(!notificationsEnabled)}
             className={`w-12 h-7 rounded-full transition-colors relative p-1 ${
-              notificationsEnabled ? 'bg-[#365D32]' : 'bg-slate-300'
+              notificationsEnabled ? 'bg-[#254F22]' : 'bg-slate-300'
             }`}
           >
             <div
@@ -210,27 +210,27 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
       </div>
 
       {/* Quick Links Section */}
-      <div className="glass-card rounded-[32px] p-2 border border-white/80 shadow-md">
+      <div className="glass-card rounded-[32px] p-2 sm:p-2.5 border border-white/90 shadow-md">
         <button
           onClick={onOpenFavorites}
-          className="w-full flex items-center justify-between p-3.5 rounded-2xl hover:bg-white/50 text-left transition-colors"
+          className="w-full flex items-center justify-between p-3.5 rounded-2xl hover:bg-white/60 text-left transition-colors"
         >
           <div className="flex items-center gap-3">
             <Heart className="w-4 h-4 text-rose-500" />
-            <span className="text-xs font-bold text-[#142C12]">Избранные товары</span>
+            <span className="text-xs sm:text-sm font-bold text-[#071707]">Избранные товары</span>
           </div>
-          <ChevronRight className="w-4 h-4 text-[#6C8A6A]" />
+          <ChevronRight className="w-4 h-4 text-[#254F22]" />
         </button>
 
         <button
           onClick={() => onSelectProduct(products[0])}
-          className="w-full flex items-center justify-between p-3.5 rounded-2xl hover:bg-white/50 text-left transition-colors"
+          className="w-full flex items-center justify-between p-3.5 rounded-2xl hover:bg-white/60 text-left transition-colors"
         >
           <div className="flex items-center gap-3">
-            <MessageSquare className="w-4 h-4 text-[#4A7A45]" />
-            <span className="text-xs font-bold text-[#142C12]">Мои отзывы (1 опубликован)</span>
+            <MessageSquare className="w-4 h-4 text-[#254F22]" />
+            <span className="text-xs sm:text-sm font-bold text-[#071707]">Мои отзывы (1 опубликован)</span>
           </div>
-          <ChevronRight className="w-4 h-4 text-[#6C8A6A]" />
+          <ChevronRight className="w-4 h-4 text-[#254F22]" />
         </button>
       </div>
     </div>

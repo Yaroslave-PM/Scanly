@@ -6,17 +6,14 @@ import {
   Star,
   Sparkles,
   TrendingDown,
-  Store,
   MapPin,
   CheckCircle2,
   AlertCircle,
   ThumbsUp,
   MessageCircle,
   Camera,
-  ChevronRight,
   Info,
   Send,
-  Flame,
 } from 'lucide-react';
 import { Product, Review } from '../data/products';
 
@@ -43,7 +40,7 @@ export const ProductCardView: React.FC<ProductCardViewProps> = ({
   const [aiAnswers, setAiAnswers] = useState<Array<{ q: string; a: string }>>([
     {
       q: 'Подходит ли для капучино?',
-      a: 'Да! За счет жирности 3,2% и содержания белка 3,0 г молоко отлично взбивается в густую шелковистую пенку в ручном капучинаторе и рожковых кофемашинах.',
+      a: 'Да! За счет жирности 3,2% и содержания белка 3,0 г молоко отлично взбивается в плотную шелковистую пенку в ручном капучинаторе и рожковых кофемашинах.',
     },
   ]);
   const [isAskingAi, setIsAskingAi] = useState(false);
@@ -75,7 +72,7 @@ export const ProductCardView: React.FC<ProductCardViewProps> = ({
     setIsAskingAi(true);
 
     setTimeout(() => {
-      let answer = `На основе анализа отзывов и состава: продукт полностью безопасен и соответствует заявленным стандартам. Большинство покупателей считают его одной из лучших покупок в категории.`;
+      let answer = `На основе анализа отзывов и состава: продукт полностью безопасен и соответствует заявленным стандартам ГОСТ. Большинство покупателей считают его одной из лучших покупок в категории.`;
       if (q.toLowerCase().includes('хранить') || q.toLowerCase().includes('срок')) {
         answer = 'После вскрытия упаковки производитель рекомендует хранить продукт в холодильнике не более 3 суток при температуре от +2°C до +6°C.';
       } else if (q.toLowerCase().includes('блин') || q.toLowerCase().includes('тест')) {
@@ -86,7 +83,7 @@ export const ProductCardView: React.FC<ProductCardViewProps> = ({
 
       setAiAnswers((prev) => [{ q, a: answer }, ...prev]);
       setIsAskingAi(false);
-    }, 600);
+    }, 500);
   };
 
   const handleShare = () => {
@@ -110,59 +107,59 @@ export const ProductCardView: React.FC<ProductCardViewProps> = ({
   });
 
   return (
-    <div className="space-y-4 pb-32 animate-fade-in">
+    <div className="space-y-5 pb-32 animate-fade-in">
       {/* Top Floating App Bar (Glass) */}
-      <div className="sticky top-0 z-30 flex items-center justify-between p-3 -mx-4 px-4 glass-dock border-b border-white/60 shadow-xs">
+      <div className="sticky top-0 z-30 flex items-center justify-between p-3.5 -mx-4 px-4 glass-dock border-b border-white/70 shadow-xs">
         <button
           onClick={onBack}
-          className="w-10 h-10 rounded-full glass-pill flex items-center justify-center text-[#1C381B] hover:bg-white transition-all shadow-xs"
+          className="w-10 h-10 rounded-full glass-pill flex items-center justify-center text-[#0E260D] hover:bg-white active:scale-95 transition-all shadow-xs"
           aria-label="Назад"
         >
-          <ArrowLeft className="w-5 h-5 stroke-[2.2]" />
+          <ArrowLeft className="w-5 h-5 stroke-[2.4]" />
         </button>
 
-        <div className="text-center px-2 truncate max-w-[200px]">
-          <span className="text-xs font-bold text-[#142C13] truncate block">
+        <div className="text-center px-2 truncate max-w-[220px]">
+          <span className="text-xs font-black text-[#071707] truncate block">
             {product.name}
           </span>
-          <span className="text-[10px] text-[#698567]">
+          <span className="text-[11px] font-bold text-[#355733]">
             {product.brand} · {product.volumeWeight}
           </span>
         </div>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
           <button
             onClick={handleShare}
-            className="w-10 h-10 rounded-full glass-pill flex items-center justify-center text-[#2A4C28] hover:bg-white transition-all shadow-xs"
+            className="w-10 h-10 rounded-full glass-pill flex items-center justify-center text-[#1E3F1C] hover:bg-white active:scale-95 transition-all shadow-xs"
             title="Поделиться"
           >
-            <Share2 className="w-4 h-4 stroke-[2.2]" />
+            <Share2 className="w-4.5 h-4.5 stroke-[2.2]" />
           </button>
 
           <button
             onClick={() => onToggleFavorite(product.id)}
-            className={`w-10 h-10 rounded-full flex items-center justify-center transition-all shadow-xs ${
+            className={`w-10 h-10 rounded-full flex items-center justify-center active:scale-95 transition-all shadow-xs ${
               isFav
                 ? 'bg-rose-500 text-white'
-                : 'glass-pill text-[#2A4C28] hover:bg-white'
+                : 'glass-pill text-[#1E3F1C] hover:bg-white'
             }`}
             aria-label="В избранное"
           >
-            <Heart className={`w-4 h-4 stroke-[2.2] ${isFav ? 'fill-current' : ''}`} />
+            <Heart className={`w-4.5 h-4.5 stroke-[2.2] ${isFav ? 'fill-current' : ''}`} />
           </button>
         </div>
       </div>
 
       {copiedShare && (
-        <div className="p-2.5 rounded-2xl glass-card-dark text-[#D8FF4F] text-xs font-bold text-center border border-white/20">
+        <div className="p-3 rounded-2xl glass-card-dark text-[#D8FF4F] text-xs font-extrabold text-center border border-white/20 shadow-md">
           Ссылка скопирована в буфер обмена!
         </div>
       )}
 
-      {/* Main Product Hero Card (Glassmorphic Surface matching Reference) */}
-      <div className="glass-card rounded-[32px] p-5 shadow-md border border-white/80">
+      {/* Main Product Hero Card (Glassmorphic Surface matching Reference Screen 2) */}
+      <div className="glass-card rounded-[32px] p-5 sm:p-6 shadow-md border border-white/90">
         {/* Large Product Photography */}
-        <div className="relative aspect-4/3 rounded-2xl overflow-hidden bg-white/50 mb-4 border border-white/80 shadow-xs flex items-center justify-center">
+        <div className="relative aspect-4/3 rounded-2xl overflow-hidden bg-white/70 mb-4.5 border border-white/80 shadow-xs flex items-center justify-center">
           <img
             src={product.image}
             alt={product.name}
@@ -171,40 +168,40 @@ export const ProductCardView: React.FC<ProductCardViewProps> = ({
           />
 
           {/* Barcode badge */}
-          <div className="absolute top-3 left-3 px-3 py-1 rounded-full glass-card-dark text-white text-[11px] font-mono flex items-center gap-1.5 border border-white/20">
+          <div className="absolute top-3 left-3 px-3 py-1.5 rounded-full glass-card-dark text-white text-xs font-mono font-medium flex items-center gap-1.5 border border-white/20 shadow-xs">
             <span>Штрихкод: {product.barcode}</span>
           </div>
 
           {/* Savings Badge */}
           {product.priceDifferencePercent < 0 && (
-            <div className="absolute bottom-3 left-3 px-3 py-1.5 rounded-full bg-linear-to-r from-[#173315] to-[#254A22] text-[#D8FF4F] text-xs font-black flex items-center gap-1.5 shadow-lg border border-white/20">
-              <TrendingDown className="w-3.5 h-3.5" />
+            <div className="absolute bottom-3 left-3 px-3 py-1.5 rounded-full bg-linear-to-r from-[#0C240B] to-[#1E451B] text-[#D8FF4F] text-xs font-black flex items-center gap-1.5 shadow-lg border border-white/20">
+              <TrendingDown className="w-4 h-4" />
               <span>{product.priceDifferencePercent}% к средней цене</span>
             </div>
           )}
         </div>
 
         {/* Product Identity */}
-        <div className="space-y-1 mb-3">
-          <div className="text-[10px] font-bold text-[#648462] uppercase tracking-wider">
+        <div className="space-y-1.5 mb-4">
+          <div className="text-xs font-bold text-[#355733] uppercase tracking-wider">
             {product.brand} · {product.category}
           </div>
-          <h2 className="text-2xl font-black text-[#132A12] tracking-tight leading-snug">
+          <h2 className="text-2xl sm:text-3xl font-black text-[#071707] tracking-tight leading-tight">
             {product.name}
           </h2>
-          <div className="text-xs text-[#547352]">
+          <div className="text-sm text-[#274426] font-semibold">
             {product.volumeWeight}
           </div>
         </div>
 
         {/* Rating Row (Glass Inset) */}
-        <div className="flex items-center gap-3 py-2.5 px-3 rounded-2xl glass-pill mb-4">
+        <div className="flex items-center gap-3 py-3 px-4 rounded-2xl glass-pill mb-4.5 shadow-xs">
           <div className="flex items-center gap-1.5">
             <div className="flex items-center">
               {[1, 2, 3, 4, 5].map((s) => (
                 <Star
                   key={s}
-                  className={`w-4 h-4 ${
+                  className={`w-4.5 h-4.5 ${
                     s <= Math.round(product.rating)
                       ? 'fill-amber-400 text-amber-400'
                       : 'text-slate-300'
@@ -212,71 +209,73 @@ export const ProductCardView: React.FC<ProductCardViewProps> = ({
                 />
               ))}
             </div>
-            <span className="text-sm font-black text-[#162F14] tabular-nums">
+            <span className="text-base font-black text-[#071707] tabular-nums">
               {product.rating}
             </span>
           </div>
 
-          <span className="text-[#88A486]">·</span>
+          <span className="text-[#6B8C67] font-bold">·</span>
 
-          <span className="text-xs font-bold text-[#4D6D4A]">
-            {product.reviewCount} оценок покупателей
+          <span className="text-xs sm:text-sm font-bold text-[#274426]">
+            {product.reviewCount} отзывов покупателей
           </span>
         </div>
 
-        {/* Current Store Anchor Banner (Deep Green Glass Card with Lime highlights) */}
-        <div className="p-4 rounded-3xl glass-card-dark text-white flex items-center justify-between border border-white/20 shadow-md">
-          <div>
+        {/* Current Store Anchor Banner */}
+        <div className="p-5 sm:p-6 rounded-3xl glass-card-dark text-white flex items-center justify-between border border-white/20 shadow-md">
+          <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="text-xs text-emerald-200 font-bold">
+              <span className="text-sm text-emerald-200 font-extrabold">
                 {product.currentStore.name}
               </span>
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/15 text-[#D8FF4F] text-[10px] font-black border border-white/10">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/15 text-[#D8FF4F] text-[10px] font-black border border-white/15">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#D8FF4F] animate-pulse" />
                 {product.currentStore.timestamp}
               </span>
             </div>
 
-            <div className="text-3xl font-black text-[#D8FF4F] tracking-tight tabular-nums mt-0.5">
+            <div className="text-4xl sm:text-5xl font-black text-[#D8FF4F] tracking-tight tabular-nums">
               {product.currentStore.price} ₽
             </div>
 
-            <div className="text-[11px] text-emerald-100/70">
-              Средняя цена: {product.averagePrice} ₽
+            <div className="text-xs text-emerald-100 font-medium">
+              Средняя цена в городе: <strong className="text-white font-bold">{product.averagePrice} ₽</strong>
             </div>
           </div>
 
           <button
             onClick={onOpenMap}
-            className="h-11 px-4 rounded-2xl bg-white/15 hover:bg-white/25 text-white text-xs font-bold flex items-center gap-1.5 transition-all border border-white/20 backdrop-blur-md"
+            className="h-12 px-4.5 rounded-2xl bg-white/15 hover:bg-white/25 active:scale-95 text-white text-xs font-bold flex items-center gap-2 transition-all border border-white/20 backdrop-blur-md shrink-0 shadow-xs"
           >
-            <MapPin className="w-3.5 h-3.5 text-[#D8FF4F]" />
+            <MapPin className="w-4 h-4 text-[#D8FF4F]" />
             <span>На карте</span>
           </button>
         </div>
       </div>
 
-      {/* Decision Tip Banner (Frosted Glass with Green glow) */}
-      <div className="p-3.5 rounded-3xl glass-card flex items-center gap-3 border border-white/80 shadow-xs">
-        <div className="w-9 h-9 rounded-2xl bg-linear-to-br from-[#4A7A45] to-[#2E522B] text-white flex items-center justify-center shrink-0 shadow-xs">
-          <Sparkles className="w-4 h-4 text-[#D8FF4F]" />
+      {/* Decision Tip Banner */}
+      <div className="p-4 sm:p-5 rounded-3xl glass-card flex items-start sm:items-center gap-3.5 border border-white/90 shadow-xs">
+        <div className="w-11 h-11 rounded-2xl bg-linear-to-br from-[#254F22] to-[#122A10] text-[#D8FF4F] flex items-center justify-center shrink-0 shadow-xs mt-0.5 sm:mt-0">
+          <Sparkles className="w-5 h-5" />
         </div>
-        <div className="text-xs text-[#1F3D1D]">
-          <strong className="block font-bold">Решение Scanly:</strong>
+        <div className="text-xs sm:text-sm text-[#071707] leading-relaxed">
+          <strong className="block text-sm font-extrabold text-[#071707] mb-0.5">
+            Решение Scanly:
+          </strong>
           {product.cheapestStore.name === product.currentStore.name
             ? `Вы в самом выгодном магазине! Здесь экономия ${product.cheapestStore.savings} ₽ по сравнению с другими сетями.`
             : `В магазине ${product.cheapestStore.name} можно купить дешевле на ${product.cheapestStore.savings} ₽.`}
         </div>
       </div>
 
-      {/* Segmented Sub-tab Navigation (Glass Pills) */}
-      <div className="p-1 rounded-2xl glass-card flex items-center gap-1 shadow-xs overflow-x-auto no-scrollbar">
+      {/* Segmented Sub-tab Navigation */}
+      <div className="p-1.5 rounded-2xl glass-card flex items-center gap-1.5 shadow-xs overflow-x-auto no-scrollbar">
         <button
           onClick={() => setActiveTab('overview')}
-          className={`flex-1 py-2 px-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all text-center ${
+          className={`flex-1 py-2.5 px-3 rounded-xl text-xs font-extrabold whitespace-nowrap transition-all text-center ${
             activeTab === 'overview'
               ? 'glass-pill-active shadow-sm'
-              : 'text-[#4F6D4C] hover:text-[#183116]'
+              : 'text-[#244522] hover:text-[#071707]'
           }`}
         >
           Обзор & AI
@@ -284,10 +283,10 @@ export const ProductCardView: React.FC<ProductCardViewProps> = ({
 
         <button
           onClick={() => setActiveTab('prices')}
-          className={`flex-1 py-2 px-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all text-center ${
+          className={`flex-1 py-2.5 px-3 rounded-xl text-xs font-extrabold whitespace-nowrap transition-all text-center ${
             activeTab === 'prices'
               ? 'glass-pill-active shadow-sm'
-              : 'text-[#4F6D4C] hover:text-[#183116]'
+              : 'text-[#244522] hover:text-[#071707]'
           }`}
         >
           Цены ({product.storePrices.length})
@@ -295,10 +294,10 @@ export const ProductCardView: React.FC<ProductCardViewProps> = ({
 
         <button
           onClick={() => setActiveTab('reviews')}
-          className={`flex-1 py-2 px-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all text-center ${
+          className={`flex-1 py-2.5 px-3 rounded-xl text-xs font-extrabold whitespace-nowrap transition-all text-center ${
             activeTab === 'reviews'
               ? 'glass-pill-active shadow-sm'
-              : 'text-[#4F6D4C] hover:text-[#183116]'
+              : 'text-[#244522] hover:text-[#071707]'
           }`}
         >
           Отзывы ({localReviews.length})
@@ -306,10 +305,10 @@ export const ProductCardView: React.FC<ProductCardViewProps> = ({
 
         <button
           onClick={() => setActiveTab('nutrition')}
-          className={`flex-1 py-2 px-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all text-center ${
+          className={`flex-1 py-2.5 px-3 rounded-xl text-xs font-extrabold whitespace-nowrap transition-all text-center ${
             activeTab === 'nutrition'
               ? 'glass-pill-active shadow-sm'
-              : 'text-[#4F6D4C] hover:text-[#183116]'
+              : 'text-[#244522] hover:text-[#071707]'
           }`}
         >
           БЖУ & Состав
@@ -319,41 +318,44 @@ export const ProductCardView: React.FC<ProductCardViewProps> = ({
       {/* Tab 1: Overview & AI Summary */}
       {activeTab === 'overview' && (
         <div className="space-y-4">
-          <div className="glass-card rounded-[32px] p-5 border border-white/80 shadow-md space-y-4">
+          <div className="glass-card rounded-[32px] p-5 sm:p-6 border border-white/90 shadow-md space-y-4">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-xl bg-linear-to-br from-[#4A7A45] to-[#2E522B] text-[#D8FF4F] flex items-center justify-center shadow-xs">
-                  <Sparkles className="w-4 h-4" />
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-linear-to-br from-[#254F22] to-[#122A10] text-[#D8FF4F] flex items-center justify-center shadow-xs">
+                  <Sparkles className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-black text-[#142B12]">
+                  <h3 className="text-base font-black text-[#071707]">
                     AI-сводка отзывов
                   </h3>
-                  <div className="text-[10px] text-[#698867]">
+                  <div className="text-xs text-[#355733] font-bold">
                     Анализ {product.reviewCount} мнений покупателей
                   </div>
                 </div>
               </div>
 
-              <span className="px-2.5 py-1 rounded-full bg-[#4A7A45] text-white text-[10px] font-black uppercase tracking-wider shadow-xs">
+              <span className="px-3 py-1 rounded-full bg-[#254F22] text-white text-[11px] font-black uppercase tracking-wider shadow-xs">
                 94% рекомендуют
               </span>
             </div>
 
-            <p className="text-xs sm:text-sm text-[#183316] leading-relaxed font-medium glass-pill p-3.5 rounded-2xl">
-              «{product.aiSummary.summary}»
-            </p>
+            {/* Clear quote block */}
+            <div className="glass-pill p-4 sm:p-5 rounded-2xl border border-white/90 shadow-xs">
+              <p className="text-sm sm:text-base text-[#071707] leading-relaxed font-medium">
+                «{product.aiSummary.summary}»
+              </p>
+            </div>
 
             {/* Pros and Cons Inset Glass Tiles */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-              <div className="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-600/20 backdrop-blur-md space-y-2">
-                <div className="text-xs font-bold text-emerald-950 flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
+              <div className="p-4 sm:p-5 rounded-2xl bg-emerald-500/10 border border-emerald-600/30 backdrop-blur-md space-y-2.5">
+                <div className="text-xs font-black text-emerald-950 flex items-center gap-1.5 uppercase tracking-wider">
+                  <CheckCircle2 className="w-4.5 h-4.5 text-emerald-800 shrink-0" />
                   <span>Что хвалят покупатели:</span>
                 </div>
-                <ul className="text-xs text-emerald-950 space-y-1.5">
+                <ul className="text-xs sm:text-sm text-emerald-950 space-y-2 font-medium">
                   {product.aiSummary.pros.map((p, idx) => (
-                    <li key={idx} className="flex items-start gap-1.5 leading-snug">
+                    <li key={idx} className="flex items-start gap-2 leading-relaxed">
                       <span className="text-emerald-700 font-bold">•</span>
                       <span>{p}</span>
                     </li>
@@ -361,14 +363,14 @@ export const ProductCardView: React.FC<ProductCardViewProps> = ({
                 </ul>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-rose-500/10 border border-rose-600/20 backdrop-blur-md space-y-2">
-                <div className="text-xs font-bold text-rose-950 flex items-center gap-1.5">
-                  <AlertCircle className="w-3.5 h-3.5 text-rose-700" />
+              <div className="p-4 sm:p-5 rounded-2xl bg-rose-500/10 border border-rose-600/30 backdrop-blur-md space-y-2.5">
+                <div className="text-xs font-black text-rose-950 flex items-center gap-1.5 uppercase tracking-wider">
+                  <AlertCircle className="w-4.5 h-4.5 text-rose-800 shrink-0" />
                   <span>На что жалуются:</span>
                 </div>
-                <ul className="text-xs text-rose-950 space-y-1.5">
+                <ul className="text-xs sm:text-sm text-rose-950 space-y-2 font-medium">
                   {product.aiSummary.cons.map((c, idx) => (
-                    <li key={idx} className="flex items-start gap-1.5 leading-snug">
+                    <li key={idx} className="flex items-start gap-2 leading-relaxed">
                       <span className="text-rose-700 font-bold">•</span>
                       <span>{c}</span>
                     </li>
@@ -378,9 +380,9 @@ export const ProductCardView: React.FC<ProductCardViewProps> = ({
             </div>
 
             {/* AI Q&A Input */}
-            <div className="pt-2 border-t border-white/60 space-y-2.5">
-              <div className="text-xs font-bold text-[#142D13] flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-[#4A7A45]" />
+            <div className="pt-3 border-t border-white/70 space-y-3">
+              <div className="text-xs font-black text-[#071707] flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4 text-[#2E6028]" />
                 <span>Спросить у AI о продукте:</span>
               </div>
 
@@ -390,24 +392,24 @@ export const ProductCardView: React.FC<ProductCardViewProps> = ({
                   value={customQuestion}
                   onChange={(e) => setCustomQuestion(e.target.value)}
                   placeholder="Например: Подойдет ли для капучино?"
-                  className="flex-1 h-10 px-3.5 rounded-full glass-input text-xs font-medium text-[#162E15] focus:outline-none focus:border-[#4A7A45]"
+                  className="flex-1 h-11 px-4 rounded-full glass-input text-xs sm:text-sm font-medium text-[#071707] placeholder:text-[#4A6E48] focus:outline-none focus:border-[#254F22]"
                 />
                 <button
                   type="submit"
                   disabled={isAskingAi || !customQuestion.trim()}
-                  className="h-10 px-4 rounded-full bg-[#4A7A45] hover:bg-[#3B6636] text-white font-bold text-xs flex items-center gap-1 disabled:opacity-50 transition-all shadow-xs"
+                  className="h-11 px-5 rounded-full bg-[#254F22] hover:bg-[#1A3A17] text-white font-bold text-xs flex items-center gap-1.5 disabled:opacity-50 transition-all shadow-xs shrink-0"
                 >
-                  <Send className="w-3 h-3" />
+                  <Send className="w-3.5 h-3.5" />
                   <span>Спросить</span>
                 </button>
               </form>
 
               {/* Answers feed */}
-              <div className="space-y-2">
+              <div className="space-y-2.5">
                 {aiAnswers.map((item, idx) => (
-                  <div key={idx} className="p-3 rounded-2xl glass-pill text-xs space-y-1 shadow-xs">
-                    <div className="font-bold text-[#142D13]">❓ {item.q}</div>
-                    <div className="text-[#395637] leading-relaxed">{item.a}</div>
+                  <div key={idx} className="p-3.5 rounded-2xl glass-pill text-xs sm:text-sm space-y-1.5 shadow-xs border border-white/90">
+                    <div className="font-extrabold text-[#071707]">❓ {item.q}</div>
+                    <div className="text-[#1D3B1B] leading-relaxed font-medium">{item.a}</div>
                   </div>
                 ))}
               </div>
@@ -418,22 +420,27 @@ export const ProductCardView: React.FC<ProductCardViewProps> = ({
 
       {/* Tab 2: Prices in Offline Grocery Chains */}
       {activeTab === 'prices' && (
-        <div className="space-y-3">
-          <div className="glass-card rounded-[32px] p-5 border border-white/80 shadow-md space-y-3">
+        <div className="space-y-3.5">
+          <div className="glass-card rounded-[32px] p-5 sm:p-6 border border-white/90 shadow-md space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-base font-black text-[#142E13]">
-                Где купить дешевле
-              </h3>
+              <div>
+                <h3 className="text-lg font-black text-[#071707]">
+                  Где купить дешевле
+                </h3>
+                <p className="text-xs text-[#355733] font-semibold">
+                  Сравнение цен в супермаркетах рядом с вами
+                </p>
+              </div>
               <button
                 onClick={onOpenMap}
-                className="text-xs font-bold text-[#3E6C38] hover:text-[#183116] flex items-center gap-1"
+                className="text-xs font-bold text-[#254F22] hover:text-[#071707] flex items-center gap-1 px-3 py-1.5 rounded-full glass-pill"
               >
                 <MapPin className="w-3.5 h-3.5" />
                 <span>На карте</span>
               </button>
             </div>
 
-            <div className="space-y-2 pt-1">
+            <div className="space-y-2.5 pt-1">
               {product.storePrices.map((sp) => {
                 const isCurrent = sp.isCurrent;
                 const isCheapest = sp.isCheapest;
@@ -441,50 +448,50 @@ export const ProductCardView: React.FC<ProductCardViewProps> = ({
                 return (
                   <div
                     key={sp.store}
-                    className={`p-3.5 rounded-2xl flex items-center justify-between transition-all ${
+                    className={`p-4 rounded-2xl flex items-center justify-between transition-all ${
                       isCheapest
-                        ? 'bg-emerald-500/15 border border-emerald-600/30'
+                        ? 'bg-emerald-500/15 border border-emerald-600/35 shadow-xs'
                         : isCurrent
-                        ? 'glass-card border border-white/90 shadow-xs'
+                        ? 'glass-card border border-white/95 shadow-xs'
                         : 'glass-pill'
                     }`}
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-linear-to-br from-[#4A7A45] to-[#2E522B] text-white font-black text-xs flex items-center justify-center shadow-xs">
+                    <div className="flex items-center gap-3.5">
+                      <div className="w-11 h-11 rounded-xl bg-linear-to-br from-[#2E6028] to-[#173615] text-white font-black text-sm flex items-center justify-center shadow-xs">
                         {sp.store[0]}
                       </div>
 
-                      <div>
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-sm font-bold text-[#142E13]">
+                      <div className="space-y-0.5">
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm sm:text-base font-extrabold text-[#071707]">
                             {sp.store}
                           </span>
                           {isCurrent && (
-                            <span className="px-2 py-0.5 rounded-full bg-[#183316] text-white text-[9px] font-bold">
+                            <span className="px-2 py-0.5 rounded-full bg-[#122A10] text-white text-[10px] font-bold">
                               Сейчас здесь
                             </span>
                           )}
                           {isCheapest && (
-                            <span className="px-2 py-0.5 rounded-full bg-[#D8FF4F] text-[#071304] text-[9px] font-extrabold shadow-xs">
+                            <span className="px-2 py-0.5 rounded-full bg-[#D8FF4F] text-[#071304] text-[10px] font-black shadow-xs">
                               Выгодно
                             </span>
                           )}
                         </div>
 
-                        <div className="text-[11px] text-[#5A7758] flex items-center gap-2 mt-0.5 font-medium">
+                        <div className="text-xs text-[#355733] flex items-center gap-2 font-semibold">
                           <span>{sp.distance}</span>
                           <span>·</span>
-                          <span className="text-[#356130] font-bold">В наличии</span>
+                          <span className="text-[#204E1E] font-bold">В наличии</span>
                         </div>
                       </div>
                     </div>
 
                     <div className="text-right">
-                      <div className="text-lg font-black text-[#142E13] tabular-nums">
+                      <div className="text-xl font-black text-[#071707] tabular-nums">
                         {sp.price} ₽
                       </div>
                       {sp.oldPrice && (
-                        <div className="line-through text-[11px] text-[#849F82] tabular-nums">
+                        <div className="line-through text-xs font-semibold text-[#668763] tabular-nums">
                           {sp.oldPrice} ₽
                         </div>
                       )}
@@ -499,34 +506,34 @@ export const ProductCardView: React.FC<ProductCardViewProps> = ({
 
       {/* Tab 3: Customer Reviews */}
       {activeTab === 'reviews' && (
-        <div className="space-y-3">
-          <div className="glass-card rounded-[32px] p-5 border border-white/80 shadow-md space-y-4">
+        <div className="space-y-3.5">
+          <div className="glass-card rounded-[32px] p-5 sm:p-6 border border-white/90 shadow-md space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-base font-black text-[#142E13]">
+                <h3 className="text-lg font-black text-[#071707]">
                   Отзывы покупателей
                 </h3>
-                <div className="text-xs text-[#5D7B5B]">
+                <div className="text-xs text-[#355733] font-semibold">
                   {product.reviewCount} отзывов с подтвержденной покупкой
                 </div>
               </div>
 
               <button
                 onClick={onOpenWriteReview}
-                className="px-4 py-2 rounded-full bg-[#4A7A45] hover:bg-[#3A6435] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs"
+                className="px-4 py-2 rounded-full bg-[#254F22] hover:bg-[#1A3A17] active:scale-95 text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs"
               >
                 <span>+ Написать</span>
               </button>
             </div>
 
             {/* Filter Buttons */}
-            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
               <button
                 onClick={() => setReviewsFilter('all')}
-                className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all ${
                   reviewsFilter === 'all'
                     ? 'glass-pill-active shadow-sm'
-                    : 'glass-pill text-[#4E6C4B]'
+                    : 'glass-pill text-[#274426]'
                 }`}
               >
                 Все
@@ -534,22 +541,22 @@ export const ProductCardView: React.FC<ProductCardViewProps> = ({
 
               <button
                 onClick={() => setReviewsFilter('photo')}
-                className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all ${
                   reviewsFilter === 'photo'
                     ? 'glass-pill-active shadow-sm'
-                    : 'glass-pill text-[#4E6C4B]'
+                    : 'glass-pill text-[#274426]'
                 }`}
               >
-                <Camera className="w-3 h-3" />
+                <Camera className="w-3.5 h-3.5" />
                 С фото
               </button>
 
               <button
                 onClick={() => setReviewsFilter('verified')}
-                className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all ${
                   reviewsFilter === 'verified'
                     ? 'glass-pill-active shadow-sm'
-                    : 'glass-pill text-[#4E6C4B]'
+                    : 'glass-pill text-[#274426]'
                 }`}
               >
                 Покупатели
@@ -557,42 +564,42 @@ export const ProductCardView: React.FC<ProductCardViewProps> = ({
             </div>
 
             {/* Reviews List */}
-            <div className="space-y-3 pt-1">
+            <div className="space-y-3.5 pt-1">
               {filteredReviews.map((rev) => {
                 const hasLiked = userLikedReviews[rev.id];
 
                 return (
                   <div
                     key={rev.id}
-                    className="p-4 rounded-2xl glass-card border border-white/80 space-y-2.5 shadow-xs"
+                    className="p-4 sm:p-5 rounded-2xl glass-card border border-white/90 space-y-3 shadow-xs"
                   >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-linear-to-tr from-[#4A7A45] to-[#31562D] text-white font-bold text-xs flex items-center justify-center shadow-xs">
+                    <div className="flex items-center justify-between pb-2 border-b border-white/50">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-linear-to-tr from-[#254F22] to-[#122A10] text-white font-bold text-sm flex items-center justify-center shadow-xs">
                           {rev.userName[0]}
                         </div>
                         <div>
                           <div className="flex items-center gap-1.5">
-                            <span className="text-xs font-bold text-[#142E13]">
+                            <span className="text-sm sm:text-base font-extrabold text-[#071707]">
                               {rev.userName}
                             </span>
                             {rev.userBadge && (
-                              <span className="px-1.5 py-0.5 rounded-md bg-[#D8FF4F] text-[#071304] text-[9px] font-black">
+                              <span className="px-2 py-0.5 rounded-md bg-[#D8FF4F] text-[#071304] text-[10px] font-black">
                                 {rev.userBadge}
                               </span>
                             )}
                           </div>
-                          <div className="text-[10px] text-[#71906F]">
+                          <div className="text-xs text-[#355733] font-semibold">
                             {rev.date}
                           </div>
                         </div>
                       </div>
 
                       <div className="text-right">
-                        <div className="text-xs font-black text-[#142E13] tabular-nums">
-                          Куплено за {rev.pricePaid} ₽
+                        <div className="text-sm sm:text-base font-black text-[#071707] tabular-nums">
+                          {rev.pricePaid} ₽
                         </div>
-                        <div className="text-[10px] text-[#547352]">
+                        <div className="text-xs text-[#355733] font-bold">
                           в {rev.store}
                         </div>
                       </div>
@@ -602,7 +609,7 @@ export const ProductCardView: React.FC<ProductCardViewProps> = ({
                       {[1, 2, 3, 4, 5].map((s) => (
                         <Star
                           key={s}
-                          className={`w-3.5 h-3.5 ${
+                          className={`w-4 h-4 ${
                             s <= rev.rating
                               ? 'fill-amber-400 text-amber-400'
                               : 'text-slate-300'
@@ -611,16 +618,16 @@ export const ProductCardView: React.FC<ProductCardViewProps> = ({
                       ))}
                     </div>
 
-                    <p className="text-xs sm:text-sm text-[#244322] leading-relaxed font-normal">
+                    <p className="text-sm sm:text-base text-[#071707] leading-relaxed font-normal">
                       {rev.text}
                     </p>
 
                     {rev.photos && rev.photos.length > 0 && (
-                      <div className="flex items-center gap-2 pt-1">
+                      <div className="flex items-center gap-2.5 pt-1">
                         {rev.photos.map((p, idx) => (
                           <div
                             key={idx}
-                            className="w-16 h-16 rounded-xl overflow-hidden bg-white/40 border border-white/70 shadow-xs"
+                            className="w-20 h-20 rounded-2xl overflow-hidden bg-white/50 border border-white/90 shadow-xs"
                           >
                             <img
                               src={p}
@@ -632,19 +639,19 @@ export const ProductCardView: React.FC<ProductCardViewProps> = ({
                       </div>
                     )}
 
-                    <div className="flex items-center justify-between pt-2 border-t border-white/60 text-xs text-[#577555]">
+                    <div className="flex items-center justify-between pt-3 border-t border-white/60 text-xs text-[#355733]">
                       <button
                         onClick={() => handleToggleLikeReview(rev.id)}
-                        className={`flex items-center gap-1.5 font-bold transition-all ${
-                          hasLiked ? 'text-[#3E6C38]' : 'hover:text-[#142E13]'
+                        className={`flex items-center gap-1.5 font-bold py-1 px-2.5 rounded-full transition-all ${
+                          hasLiked ? 'bg-[#254F22] text-white shadow-xs' : 'glass-pill hover:text-[#071707]'
                         }`}
                       >
                         <ThumbsUp className={`w-3.5 h-3.5 ${hasLiked ? 'fill-current' : ''}`} />
                         <span>Полезно ({rev.likes})</span>
                       </button>
 
-                      <div className="flex items-center gap-1 text-[#71906F]">
-                        <MessageCircle className="w-3.5 h-3.5" />
+                      <div className="flex items-center gap-1.5 text-[#355733] font-bold">
+                        <MessageCircle className="w-4 h-4" />
                         <span>{rev.commentsCount} коммент.</span>
                       </div>
                     </div>
@@ -656,77 +663,78 @@ export const ProductCardView: React.FC<ProductCardViewProps> = ({
         </div>
       )}
 
-      {/* Tab 4: Nutrition & KBJU Grid (Matching Care Overview 4-tile grid in Reference Screen 2) */}
+      {/* Tab 4: Nutrition & KBJU */}
       {activeTab === 'nutrition' && (
-        <div className="space-y-3">
-          <div className="glass-card rounded-[32px] p-5 border border-white/80 shadow-md space-y-4">
-            <h3 className="text-base font-black text-[#142E13]">
-              Пищевая ценность и состав
-            </h3>
-
-            <div className="text-xs font-bold text-[#567554]">
-              Показатели {product.nutrition.serving.toLowerCase()}:
+        <div className="space-y-4">
+          <div className="glass-card rounded-[32px] p-5 sm:p-6 border border-white/90 shadow-md space-y-4.5">
+            <div>
+              <h3 className="text-lg font-black text-[#071707]">
+                Пищевая ценность и состав
+              </h3>
+              <div className="text-xs text-[#355733] font-bold mt-0.5">
+                Показатели {product.nutrition.serving.toLowerCase()}:
+              </div>
             </div>
 
-            {/* 4 Frosted Glass Stat Tiles (Exact style of Water, Light, Temp, Humidity from Reference) */}
-            <div className="grid grid-cols-4 gap-2 text-center">
-              <div className="p-3 rounded-2xl glass-pill shadow-xs">
-                <div className="text-[10px] text-[#678865] font-semibold">Калории</div>
-                <div className="text-base font-black text-[#142E13] tabular-nums mt-0.5">
+            {/* 4 Frosted Glass Stat Tiles */}
+            <div className="grid grid-cols-4 gap-2.5 text-center">
+              <div className="p-3.5 sm:p-4 rounded-2xl glass-pill shadow-xs border border-white/90">
+                <div className="text-[10px] sm:text-xs text-[#355733] font-bold uppercase tracking-wider">Калории</div>
+                <div className="text-xl sm:text-2xl font-black text-[#071707] tabular-nums mt-1">
                   {product.nutrition.calories}
                 </div>
-                <div className="text-[9px] text-[#7A9978]">ккал</div>
+                <div className="text-[11px] text-[#4F754A] font-semibold">ккал</div>
               </div>
 
-              <div className="p-3 rounded-2xl glass-pill shadow-xs">
-                <div className="text-[10px] text-[#678865] font-semibold">Белки</div>
-                <div className="text-base font-black text-[#142E13] tabular-nums mt-0.5">
+              <div className="p-3.5 sm:p-4 rounded-2xl glass-pill shadow-xs border border-white/90">
+                <div className="text-[10px] sm:text-xs text-[#355733] font-bold uppercase tracking-wider">Белки</div>
+                <div className="text-xl sm:text-2xl font-black text-[#071707] tabular-nums mt-1">
                   {product.nutrition.proteins}
                 </div>
-                <div className="text-[9px] text-[#7A9978]">г</div>
+                <div className="text-[11px] text-[#4F754A] font-semibold">грамм</div>
               </div>
 
-              <div className="p-3 rounded-2xl glass-pill shadow-xs">
-                <div className="text-[10px] text-[#678865] font-semibold">Жиры</div>
-                <div className="text-base font-black text-[#142E13] tabular-nums mt-0.5">
+              <div className="p-3.5 sm:p-4 rounded-2xl glass-pill shadow-xs border border-white/90">
+                <div className="text-[10px] sm:text-xs text-[#355733] font-bold uppercase tracking-wider">Жиры</div>
+                <div className="text-xl sm:text-2xl font-black text-[#071707] tabular-nums mt-1">
                   {product.nutrition.fats}
                 </div>
-                <div className="text-[9px] text-[#7A9978]">г</div>
+                <div className="text-[11px] text-[#4F754A] font-semibold">грамм</div>
               </div>
 
-              <div className="p-3 rounded-2xl glass-pill shadow-xs">
-                <div className="text-[10px] text-[#678865] font-semibold">Углеводы</div>
-                <div className="text-base font-black text-[#142E13] tabular-nums mt-0.5">
+              <div className="p-3.5 sm:p-4 rounded-2xl glass-pill shadow-xs border border-white/90">
+                <div className="text-[10px] sm:text-xs text-[#355733] font-bold uppercase tracking-wider">Углеводы</div>
+                <div className="text-xl sm:text-2xl font-black text-[#071707] tabular-nums mt-1">
                   {product.nutrition.carbs}
                 </div>
-                <div className="text-[9px] text-[#7A9978]">г</div>
+                <div className="text-[11px] text-[#4F754A] font-semibold">грамм</div>
               </div>
             </div>
 
-            <div className="space-y-1.5 pt-2">
-              <div className="text-xs font-bold text-[#142E13]">
+            <div className="space-y-2 pt-1">
+              <div className="text-xs font-black text-[#071707] uppercase tracking-wider">
                 Состав продукта:
               </div>
-              <p className="text-xs sm:text-sm text-[#274725] leading-relaxed glass-pill p-3.5 rounded-2xl font-medium shadow-xs">
+              <p className="text-sm sm:text-base text-[#071707] leading-relaxed glass-pill p-4 sm:p-5 rounded-2xl font-medium shadow-xs border border-white/90">
                 {product.ingredients}
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-1.5 pt-1">
+            <div className="flex flex-wrap gap-2 pt-1">
               {product.badges.map((b) => (
                 <span
                   key={b}
-                  className="px-3 py-1 rounded-full glass-pill text-[#1E3B1C] text-xs font-bold shadow-xs border border-white/80"
+                  className="px-3.5 py-1.5 rounded-full glass-pill text-[#071707] text-xs font-extrabold shadow-xs border border-white/90"
                 >
                   ✓ {b}
                 </span>
               ))}
             </div>
 
-            <div className="p-3 rounded-2xl glass-pill flex items-start gap-2.5 text-[11px] text-[#5A7758] shadow-xs">
-              <Info className="w-4 h-4 text-[#4A7A45] shrink-0 mt-0.5" />
+            <div className="p-4 rounded-2xl glass-pill flex items-start gap-3 text-xs text-[#274426] leading-relaxed shadow-xs border border-white/90">
+              <Info className="w-4.5 h-4.5 text-[#254F22] shrink-0 mt-0.5" />
               <span>
-                Информация собрана из открытых источников и базы производителей. Перед употреблением сверяйте фактический состав на упаковке в магазине.
+                Информация собрана из базы производителей. Перед употреблением рекомендуем сверять фактический состав на упаковке в магазине.
               </span>
             </div>
           </div>
