@@ -1,0 +1,7 @@
+{
+  "name": "Scanly — Персональный помощник при покупке продуктов",
+  "description": "Мобильный ассистент покупателя: сканирование штрихкода, AI-сводка отзывов, сравнение цен в магазинах и состав продуктов.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

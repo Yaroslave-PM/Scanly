@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #162B16;
+  }
+}
+
+/* Glassmorphism utility classes matching the reference */
+.glass-card {
+  background: rgba(255, 255, 255, 0.58);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow: 0 10px 32px 0 rgba(28, 56, 33, 0.08);
+}
+
+.glass-card-hover {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glass-card-hover:hover {
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 14px 40px 0 rgba(28, 56, 33, 0.12);
+  transform: translateY(-2px);
+}
+
+.glass-card-dark {
+  background: rgba(10, 26, 12, 0.82);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 16px 45px 0 rgba(6, 20, 8, 0.3);
+}
+
+.glass-pill {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+}
+
+.glass-pill-active {
+  background: linear-gradient(135deg, #4A7A45 0%, #345C30 100%);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 14px rgba(45, 85, 41, 0.25);
+}
+
+.glass-pill-lime {
+  background: #D8FF4F;
+  color: #071304;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 16px rgba(216, 255, 79, 0.35);
+}
+
+.glass-dock {
+  background: rgba(255, 255, 255, 0.68);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 14px 40px -4px rgba(18, 48, 22, 0.15);
+}
+
+.glass-input {
+  background: rgba(255, 255, 255, 0.52);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+/* Hide scrollbars for clean mobile touch feeling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Custom pulse animations for scanner */
+@keyframes laserSweep {
+  0% {
+    top: 5%;
+    opacity: 0.8;
+  }
+  50% {
+    top: 90%;
+    opacity: 1;
+  }
+  100% {
+    top: 5%;
+    opacity: 0.8;
+  }
+}
+
+.animate-laser {
+  animation: laserSweep 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+
