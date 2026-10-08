@@ -38,6 +38,9 @@ export const Nutrition = z.object({
   protein: z.number().nullable(),
   fat: z.number().nullable(),
   carbs: z.number().nullable(),
+  sugar: z.number().nullable(),
+  fiber: z.number().nullable(),
+  salt: z.number().nullable(),
 });
 export type Nutrition = z.infer<typeof Nutrition>;
 
@@ -51,6 +54,8 @@ export const ProductCard = z.object({
     netQuantity: z.number().nullable(),
     unit: Unit.nullable(),
     ingredients: z.string().nullable(),
+    allergens: z.array(z.string()),
+    barcode: z.string().nullable(),
   }),
   bestPrice: BestPrice.nullable(),
   rating: RatingSummary,
@@ -58,6 +63,24 @@ export const ProductCard = z.object({
   isFavorite: z.boolean(),
 });
 export type ProductCard = z.infer<typeof ProductCard>;
+
+/** Строка списка: поиск, подборки на главной. */
+export const ProductListItem = z.object({
+  id: z.string().uuid(),
+  name: z.string(),
+  brand: z.string().nullable(),
+  imageUrl: z.string().nullable(),
+  netQuantity: z.number().nullable(),
+  unit: Unit.nullable(),
+  rating: z.object({ average: z.number(), count: z.number().int() }),
+});
+export type ProductListItem = z.infer<typeof ProductListItem>;
+
+export const ProductSearchResponse = z.object({
+  items: z.array(ProductListItem),
+  nextPage: z.number().int().nullable(),
+});
+export type ProductSearchResponse = z.infer<typeof ProductSearchResponse>;
 
 export const ApiError = z.object({
   code: z.string(),

@@ -8,22 +8,26 @@
     "android": "expo start --android",
     "typecheck": "tsc --noEmit",
     "lint": "tsc --noEmit",
-    "build": "echo \"mobile: \u0441\u0431\u043e\u0440\u043a\u0430 \u0447\u0435\u0440\u0435\u0437 EAS\""
+    "build": "echo \"mobile: сборка через EAS\""
   },
   "dependencies": {
+    "@expo-google-fonts/inter": "^0.4.2",
     "@scanly/design-tokens": "workspace:*",
+    "@tanstack/react-query": "^5.104.1",
     "expo": "~57.0.27",
+    "expo-camera": "~57.0.6",
+    "expo-constants": "~57.0.21",
+    "expo-font": "~57.0.4",
+    "expo-haptics": "~57.0.3",
+    "expo-image": "~57.0.5",
+    "expo-linking": "~57.0.12",
     "expo-router": "~57.0.25",
+    "expo-splash-screen": "~57.0.9",
+    "expo-status-bar": "~57.0.1",
     "react": "19.2.3",
     "react-native": "0.86.3",
-    "expo-font": "~57.0.4",
-    "expo-status-bar": "~57.0.1",
-    "expo-splash-screen": "~57.0.9",
     "react-native-safe-area-context": "~5.7.0",
-    "react-native-screens": "~4.26.0",
-    "expo-linking": "~57.0.12",
-    "expo-constants": "~57.0.21",
-    "@expo-google-fonts/inter": "^0.4.2"
+    "react-native-screens": "~4.26.0"
   },
   "devDependencies": {
     "@scanly/config": "workspace:*",

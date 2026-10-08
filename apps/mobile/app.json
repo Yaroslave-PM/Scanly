@@ -7,9 +7,20 @@
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
-    "plugins": ["expo-router", "expo-font"],
-    "ios": { "bundleIdentifier": "app.scanly.mobile", "supportsTablet": false },
-    "android": { "package": "app.scanly.mobile" },
-    "experiments": { "typedRoutes": true }
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-image"
+    ],
+    "ios": {
+      "bundleIdentifier": "app.scanly.mobile",
+      "supportsTablet": false
+    },
+    "android": {
+      "package": "app.scanly.mobile"
+    },
+    "experiments": {
+      "typedRoutes": true
+    }
   }
 }
