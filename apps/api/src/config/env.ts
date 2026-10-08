@@ -4,6 +4,8 @@ const schema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT: z.coerce.number().int().positive().default(3000),
   DATABASE_URL: z.string().url(),
+  /** Токен для /admin до появления авторизации. Без него админка выключена. */
+  ADMIN_TOKEN: z.preprocess((v) => v || undefined, z.string().min(16).optional()),
 });
 
 export type Env = z.infer<typeof schema>;

@@ -207,6 +207,10 @@ model Product {
   allergens   String[]
   status      ProductStatus @default(active)
   source      ProductSource @default(manual)
+  /// Сколько раз товар сканировали в Open Food Facts: ориентир, какие товары проверять в админке первыми.
+  popularity  Int           @default(0)
+  /// Правка из админки. Импорт такие товары не перезаписывает.
+  editedAt    DateTime?     @map("edited_at")
   createdAt   DateTime      @default(now()) @map("created_at")
   updatedAt   DateTime      @updatedAt @map("updated_at")
 
@@ -223,6 +227,7 @@ model Product {
   recommendations Recommendation[]
 
   @@index([name])
+  @@index([popularity])
   @@map("products")
 }
 

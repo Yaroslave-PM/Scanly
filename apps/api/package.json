@@ -11,7 +11,16 @@
     "test": "jest",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
-    "prisma:validate": "prisma validate"
+    "prisma:validate": "prisma validate",
+    "import:off": "nest build && node dist/cli/cli.js import-off",
+    "import:osm": "nest build && node dist/cli/cli.js import-osm",
+    "coverage": "nest build && node dist/cli/cli.js coverage"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "rootDir": "src",
+    "testRegex": "\\.spec\\.ts$"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.0",

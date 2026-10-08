@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scanly Админка</title>
+<style>
+  :root {
+    --lime: #D8FF4F; --deep: #071304; --cream: #F5F5EE; --white: #FFFFFF;
+    --muted: #777B72; --green: #4F7F20; --soft: #EEF6D5; --red: #E85A4F; --line: #E2E3DA;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.5 Inter, system-ui, sans-serif; background: var(--cream); color: var(--deep); }
+  header { display: flex; align-items: center; gap: 16px; padding: 16px 24px; background: var(--deep); color: var(--white); }
+  header b { font-size: 18px; }
+  header b span { color: var(--lime); }
+  nav { display: flex; gap: 8px; margin-left: 16px; }
+  nav button { background: transparent; color: var(--white); border: 1px solid #ffffff33; }
+  nav button.active { background: var(--lime); color: var(--deep); border-color: var(--lime); }
+  main { max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
+  button { font: inherit; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--white); cursor: pointer; }
+  button.primary { background: var(--deep); color: var(--white); border-color: var(--deep); }
+  input, select, textarea { font: inherit; padding: 8px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--white); width: 100%; }
+  textarea { min-height: 96px; resize: vertical; }
+  label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+  .card { background: var(--white); border-radius: 16px; padding: 24px; margin-bottom: 16px; }
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+  .stat b { display: block; font-size: 28px; line-height: 32px; }
+  .stat small { color: var(--muted); }
+  .bar { height: 6px; background: var(--soft); border-radius: 3px; margin-top: 8px; overflow: hidden; }
+  .bar i { display: block; height: 100%; background: var(--green); }
+  .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .toolbar input { flex: 1; min-width: 200px; }
+  .toolbar select { width: auto; }
+  table { width: 100%; border-collapse: collapse; background: var(--white); border-radius: 16px; overflow: hidden; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  th { font-size: 12px; color: var(--muted); font-weight: 500; }
+  tr.row { cursor: pointer; }
+  tr.row:hover { background: var(--soft); }
+  td img { width: 40px; height: 40px; object-fit: contain; border-radius: 8px; background: var(--cream); }
+  .tag { display: inline-block; padding: 0 8px; border-radius: 999px; font-size: 12px; background: var(--soft); margin-right: 4px; }
+  .tag.no { background: #fbe3e1; color: var(--red); }
+  .pager { display: flex; gap: 8px; align-items: center; margin-top: 16px; }
+  .form { display: grid; gap: 16px; grid-template-columns: repeat(2, 1fr); }
+  .form .wide { grid-column: 1 / -1; }
+  .nutr { display: grid; gap: 8px; grid-template-columns: repeat(7, 1fr); }
+  .actions { display: flex; gap: 8px; justify-content: flex-end; }
+  .error { color: var(--red); white-space: pre-wrap; }
+  .muted { color: var(--muted); }
+  .hidden { display: none !important; }
+  dialog { border: 0; border-radius: 24px; padding: 24px; width: min(900px, 95vw); }
+  dialog::backdrop { background: #07130499; }
+  @media (max-width: 700px) { .form { grid-template-columns: 1fr; } .nutr { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+<header>
+  <b>Scanly <span>админка</span></b>
+  <nav id="nav" class="hidden">
+    <button data-tab="coverage" class="active">Покрытие</button>
+    <button data-tab="products">Товары</button>
+  </nav>
+</header>
+<main>
+  <section id="login" class="card">
+    <label for="token">Токен админки (ADMIN_TOKEN из .env API)</label>
+    <div class="toolbar"><input id="token" type="password" autocomplete="off"><button class="primary" id="loginBtn">Войти</button></div>
+    <div class="error" id="loginError"></div>
+  </section>
+
+  <section id="coverage" class="hidden"></section>
+
+  <section id="products" class="hidden">
+    <div class="toolbar">
+      <input id="q" placeholder="Название, бренд или штрихкод">
+      <select id="missing">
+        <option value="">Все товары</option>
+        <option value="any">Чего-то не хватает</option>
+        <option value="image">Без фото</option>
+        <option value="ingredients">Без состава</option>
+        <option value="nutrition">Без КБЖУ</option>
+      </select>
+      <button id="searchBtn">Найти</button>
+      <button class="primary" id="newBtn">Добавить товар</button>
+    </div>
+    <table>
+      <thead><tr><th></th><th>Название</th><th>Бренд</th><th>Штрихкод</th><th>Данные</th><th>Сканы OFF</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="pager"><button id="prev">←</button><span id="pageInfo" class="muted"></span><button id="next">→</button></div>
+  </section>
+</main>
+
+<dialog id="editor">
+  <form id="productForm" method="dialog">
+    <h2 id="editorTitle">Товар</h2>
+    <div class="form">
+      <div class="wide"><label>Название *</label><input name="name" required minlength="2"></div>
+      <div><label>Бренд</label><input name="brand"></div>
+      <div><label>Штрихкоды через запятую *</label><input name="barcodes" required></div>
+      <div class="wide"><label>Ссылка на фото (https)</label><input name="imageUrl" type="url"></div>
+      <div><label>Вес или объём</label><input name="netQuantity" type="number" step="0.01" min="0"></div>
+      <div><label>Единица</label>
+        <select name="unit"><option value="">—</option><option>g</option><option>kg</option><option>ml</option><option>l</option><option>pcs</option></select>
+      </div>
+      <div class="wide"><label>Состав</label><textarea name="ingredients"></textarea></div>
+      <div class="wide"><label>Аллергены через запятую</label><input name="allergens"></div>
+      <div class="wide"><label>КБЖУ на 100 г/мл</label>
+        <div class="nutr">
+          <input name="kcal" type="number" step="0.01" placeholder="ккал">
+          <input name="protein" type="number" step="0.01" placeholder="белки">
+          <input name="fat" type="number" step="0.01" placeholder="жиры">
+          <input name="carbs" type="number" step="0.01" placeholder="углеводы">
+          <input name="sugar" type="number" step="0.01" placeholder="сахар">
+          <input name="fiber" type="number" step="0.01" placeholder="клетчатка">
+          <input name="salt" type="number" step="0.01" placeholder="соль">
+        </div>
+      </div>
+      <div><label>Статус</label>
+        <select name="status"><option value="active">Показывать</option><option value="draft">Черновик</option><option value="hidden">Скрыт</option></select>
+      </div>
+      <div class="muted" id="meta"></div>
+      <div class="wide error" id="formError"></div>
+      <div class="wide actions"><button type="button" id="cancelBtn">Отмена</button><button class="primary" type="submit">Сохранить</button></div>
+    </div>
+  </form>
+</dialog>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const NUTRIENTS = ['kcal', 'protein', 'fat', 'carbs', 'sugar', 'fiber', 'salt'];
+const state = { token: sessionStorage.getItem('adminToken') || '', page: 1, pageSize: 30, editingId: null };
+
+async function api(path, options = {}) {
+  const res = await fetch('/v1/admin' + path, {
+    ...options,
+    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + state.token },
+  });
+  const body = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const err = new Error(body.message?.message || body.message || 'Ошибка ' + res.status);
+    err.status = res.status;
+    err.details = body.message?.details || body.details;
+    throw err;
+  }
+  return body;
+}
+
+function el(tag, props = {}, children = []) {
+  const node = Object.assign(document.createElement(tag), props);
+  node.append(...children);
+  return node;
+}
+
+// ---------- вход ----------
+async function login() {
+  state.token = $('token').value.trim() || state.token;
+  try {
+    await api('/coverage');
+    sessionStorage.setItem('adminToken', state.token);
+    $('login').classList.add('hidden');
+    $('nav').classList.remove('hidden');
+    showTab('coverage');
+  } catch (e) {
+    $('loginError').textContent = e.status === 401 ? 'Неверный токен' : e.message;
+  }
+}
+$('loginBtn').onclick = login;
+$('token').onkeydown = (e) => e.key === 'Enter' && login();
+
+function showTab(tab) {
+  for (const b of document.querySelectorAll('#nav button')) b.classList.toggle('active', b.dataset.tab === tab);
+  $('coverage').classList.toggle('hidden', tab !== 'coverage');
+  $('products').classList.toggle('hidden', tab !== 'products');
+  tab === 'coverage' ? loadCoverage() : loadProducts();
+}
+for (const b of document.querySelectorAll('#nav button')) b.onclick = () => showTab(b.dataset.tab);
+
+// ---------- покрытие ----------
+function stat(title, value, total) {
+  const share = total ? Math.round((value / total) * 100) : null;
+  return el('div', { className: 'card stat' }, [
+    el('small', { textContent: title }),
+    el('b', { textContent: value.toLocaleString('ru-RU') }),
+    el('small', { textContent: share === null ? '' : share + '% от всех' }),
+    share === null ? '' : el('div', { className: 'bar' }, [el('i', { style: 'width:' + share + '%' })]),
+  ]);
+}
+
+async function loadCoverage() {
+  const r = await api('/coverage');
+  const p = r.products, s = r.stores;
+  $('coverage').replaceChildren(
+    el('h2', { textContent: 'Товары' }),
+    el('div', { className: 'grid' }, [
+      stat('Всего товаров', p.total),
+      stat('С фото', p.withImage, p.total),
+      stat('С составом', p.withIngredients, p.total),
+      stat('С КБЖУ', p.withNutrition, p.total),
+      stat('С брендом', p.withBrand, p.total),
+      stat('С весом/объёмом', p.withQuantity, p.total),
+      stat('Полная карточка', p.complete, p.total),
+    ]),
+    el('p', { className: 'muted', textContent: 'Источники: ' + Object.entries(p.bySource).map(([k, v]) => k + ' ' + v).join(', ') }),
+    el('h2', { textContent: 'Магазины' }),
+    el('div', { className: 'grid' }, [
+      stat('Всего магазинов', s.total),
+      stat('Сетевых', s.withChain, s.total),
+      stat('С адресом', s.withAddress, s.total),
+    ]),
+    el('p', { className: 'muted', textContent: 'Сети: ' + s.topChains.map((c) => c.name + ' ' + c.stores).join(', ') }),
+    el('h2', { textContent: 'Сканы за 30 дней' }),
+    el('p', { textContent: r.scans.last30Days + ' сканов' + (r.scans.foundShare === null ? '' : ', найдено ' + r.scans.foundShare + '%') }),
+  );
+}
+
+// ---------- товары ----------
+function tag(text, ok) { return el('span', { className: 'tag' + (ok ? '' : ' no'), textContent: text }); }
+
+async function loadProducts() {
+  const params = new URLSearchParams({ page: state.page, pageSize: state.pageSize });
+  if ($('q').value.trim()) params.set('q', $('q').value.trim());
+  if ($('missing').value) params.set('missing', $('missing').value);
+  const r = await api('/products?' + params);
+  $('rows').replaceChildren(...r.items.map((p) => {
+    const row = el('tr', { className: 'row' }, [
+      el('td', {}, [p.imageUrl ? el('img', { src: p.imageUrl, loading: 'lazy', alt: '' }) : '']),
+      el('td', { textContent: p.name }),
+      el('td', { textContent: p.brand || '—' }),
+      el('td', { textContent: p.barcodes.map((b) => b.code).join(', ') }),
+      el('td', {}, [tag('фото', p.imageUrl), tag('состав', p.ingredients), tag('КБЖУ', p.nutrition && p.nutrition.kcal !== null)]),
+      el('td', { textContent: p.popularity }),
+    ]);
+    row.onclick = () => openEditor(p.id);
+    return row;
+  }));
+  const pages = Math.max(1, Math.ceil(r.total / r.pageSize));
+  $('pageInfo').textContent = 'стр. ' + r.page + ' из ' + pages + ' · ' + r.total.toLocaleString('ru-RU') + ' товаров';
+  $('prev').disabled = r.page <= 1;
+  $('next').disabled = r.page >= pages;
+}
+$('searchBtn').onclick = () => { state.page = 1; loadProducts(); };
+$('q').onkeydown = (e) => e.key === 'Enter' && $('searchBtn').onclick();
+$('missing').onchange = () => $('searchBtn').onclick();
+$('prev').onclick = () => { state.page--; loadProducts(); };
+$('next').onclick = () => { state.page++; loadProducts(); };
+
+// ---------- редактор ----------
+const form = $('productForm');
+
+async function openEditor(id) {
+  state.editingId = id;
+  form.reset();
+  $('formError').textContent = '';
+  $('meta').textContent = '';
+  $('editorTitle').textContent = id ? 'Правка товара' : 'Новый товар';
+  if (id) {
+    const p = await api('/products/' + id);
+    const f = form.elements;
+    f.name.value = p.name;
+    f.brand.value = p.brand || '';
+    f.barcodes.value = p.barcodes.map((b) => b.code).join(', ');
+    f.imageUrl.value = p.imageUrl || '';
+    f.netQuantity.value = p.netQuantity ?? '';
+    f.unit.value = p.unit || '';
+    f.ingredients.value = p.ingredients || '';
+    f.allergens.value = p.allergens.join(', ');
+    f.status.value = p.status;
+    for (const n of NUTRIENTS) f[n].value = p.nutrition?.[n] ?? '';
+    $('meta').textContent = 'Источник: ' + p.source + (p.editedAt ? ', правка ' + new Date(p.editedAt).toLocaleString('ru-RU') : '');
+  }
+  $('editor').showModal();
+}
+$('newBtn').onclick = () => openEditor(null);
+$('cancelBtn').onclick = () => $('editor').close();
+
+function numberOrNull(value) { return value === '' ? null : Number(value); }
+const list = (value) => value.split(',').map((s) => s.trim()).filter(Boolean);
+
+form.onsubmit = async (e) => {
+  e.preventDefault();
+  const f = form.elements;
+  const nutrition = Object.fromEntries(NUTRIENTS.map((n) => [n, numberOrNull(f[n].value)]));
+  const body = {
+    name: f.name.value,
+    brand: f.brand.value,
+    barcodes: list(f.barcodes.value),
+    imageUrl: f.imageUrl.value || null,
+    netQuantity: numberOrNull(f.netQuantity.value),
+    unit: f.unit.value || null,
+    ingredients: f.ingredients.value,
+    allergens: list(f.allergens.value),
+    status: f.status.value,
+    nutrition: Object.values(nutrition).some((v) => v !== null) ? nutrition : null,
+  };
+  try {
+    await api(state.editingId ? '/products/' + state.editingId : '/products', {
+      method: state.editingId ? 'PATCH' : 'POST',
+      body: JSON.stringify(body),
+    });
+    $('editor').close();
+    loadProducts();
+  } catch (err) {
+    const fields = err.details?.fieldErrors ? '\n' + Object.entries(err.details.fieldErrors).map(([k, v]) => k + ': ' + v.join(', ')).join('\n') : '';
+    $('formError').textContent = err.message + fields;
+  }
+};
+
+if (state.token) login();
+</script>
+</body>
+</html>

@@ -16,4 +16,5 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @scanly/api prisma:generate
       - run: pnpm typecheck
+      - run: pnpm test
       - run: pnpm build
