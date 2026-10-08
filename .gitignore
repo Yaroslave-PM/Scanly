@@ -1,8 +1,12 @@
 node_modules/
-build/
 dist/
+.turbo/
+.expo/
 coverage/
-.DS_Store
 *.log
-.env*
+.DS_Store
+.env
+.env.*
 !.env.example
+apps/api/src/generated/
+*.tsbuildinfo
