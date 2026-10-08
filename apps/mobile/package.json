@@ -1,0 +1,33 @@
+{
+  "name": "@scanly/mobile",
+  "version": "0.0.0",
+  "private": true,
+  "main": "expo-router/entry",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "build": "echo \"mobile: \u0441\u0431\u043e\u0440\u043a\u0430 \u0447\u0435\u0440\u0435\u0437 EAS\""
+  },
+  "dependencies": {
+    "@scanly/design-tokens": "workspace:*",
+    "expo": "~57.0.27",
+    "expo-router": "~57.0.25",
+    "react": "19.2.3",
+    "react-native": "0.86.3",
+    "expo-font": "~57.0.4",
+    "expo-status-bar": "~57.0.1",
+    "expo-splash-screen": "~57.0.9",
+    "react-native-safe-area-context": "~5.7.0",
+    "react-native-screens": "~4.26.0",
+    "expo-linking": "~57.0.12",
+    "expo-constants": "~57.0.21",
+    "@expo-google-fonts/inter": "^0.4.2"
+  },
+  "devDependencies": {
+    "@scanly/config": "workspace:*",
+    "@types/react": "~19.2.0",
+    "typescript": "^5.9.0"
+  }
+}

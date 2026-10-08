@@ -1,0 +1,15 @@
+{
+  "expo": {
+    "name": "Scanly",
+    "slug": "scanly",
+    "scheme": "scanly",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "plugins": ["expo-router", "expo-font"],
+    "ios": { "bundleIdentifier": "app.scanly.mobile", "supportsTablet": false },
+    "android": { "package": "app.scanly.mobile" },
+    "experiments": { "typedRoutes": true }
+  }
+}
