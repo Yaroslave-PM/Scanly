@@ -16,4 +16,4 @@ export function Price({ amount, currency }: { amount: number; currency?: string 
   return <Text style={styles.price}>{formatPrice(amount, currency)}</Text>;
 }
 
-const styles = StyleSheet.create({ price: { ...typography.title, color: colors.deepGreen } });
+const styles = StyleSheet.create({ price: { ...typography.price, color: colors.ink } });

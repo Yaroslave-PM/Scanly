@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { CameraView, useCameraPermissions, type BarcodeScanningResult } from 'expo-camera';
 import * as Haptics from 'expo-haptics';
 import { router } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import { useCallback, useRef, useState } from 'react';
 import {
   ActivityIndicator,
@@ -91,7 +92,7 @@ export function ScannerScreen() {
           ) : (
             <Button title="Открыть настройки" onPress={() => Linking.openSettings()} />
           )}
-          <Button title="Ввести код вручную" variant="ghost" onPress={() => setState({ kind: 'manual' })} />
+          <Button title="Ввести код вручную" variant="soft" onPress={() => setState({ kind: 'manual' })} />
         </StateView>
         {state.kind === 'manual' ? <ManualEntry {...{ manualCode, setManualCode, lookup, reset }} /> : null}
       </View>
@@ -100,6 +101,7 @@ export function ScannerScreen() {
 
   return (
     <KeyboardAvoidingView style={styles.dark} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      <StatusBar style="light" />
       <CameraView
         style={StyleSheet.absoluteFill}
         facing="back"
@@ -116,7 +118,7 @@ export function ScannerScreen() {
           onPress={() => setTorch((t) => !t)}
           style={[styles.roundButton, torch && styles.roundButtonActive]}
         >
-          <Ionicons name={torch ? 'flashlight' : 'flashlight-outline'} size={22} color={torch ? colors.deepGreen : colors.white} />
+          <Ionicons name={torch ? 'flashlight' : 'flashlight-outline'} size={22} color={torch ? colors.ink : colors.white} />
         </Pressable>
       </View>
 
@@ -129,12 +131,12 @@ export function ScannerScreen() {
 
       <View style={[styles.sheet, { paddingBottom: insets.bottom + spacing.md }]}>
         {state.kind === 'scanning' ? (
-          <Button title="Ввести код вручную" variant="ghost" onPress={() => setState({ kind: 'manual' })} />
+          <Button title="Ввести код вручную" variant="soft" onPress={() => setState({ kind: 'manual' })} />
         ) : state.kind === 'manual' ? (
           <ManualEntry {...{ manualCode, setManualCode, lookup, reset }} />
         ) : state.kind === 'searching' ? (
           <View style={styles.searching}>
-            <ActivityIndicator color={colors.green} />
+            <ActivityIndicator color={colors.primary} />
             <Text style={styles.sheetTitle}>Ищем товар</Text>
             <Text style={styles.sheetText}>{state.code}</Text>
           </View>
@@ -145,14 +147,14 @@ export function ScannerScreen() {
               Кода {state.code} пока нет в нашей базе. Попробуйте найти товар по названию.
             </Text>
             <Button title="Найти по названию" onPress={() => router.replace('/search')} />
-            <Button title="Сканировать ещё" variant="ghost" onPress={reset} />
+            <Button title="Сканировать ещё" variant="soft" onPress={reset} />
           </View>
         ) : (
           <View style={styles.sheetBody}>
             <Text style={styles.sheetTitle}>Нет связи</Text>
             <Text style={styles.sheetText}>{state.message}. Проверьте интернет и попробуйте ещё раз.</Text>
             <Button title="Повторить" onPress={() => lookup(state.code)} />
-            <Button title="Сканировать ещё" variant="ghost" onPress={reset} />
+            <Button title="Сканировать ещё" variant="soft" onPress={reset} />
           </View>
         )}
       </View>
@@ -168,7 +170,7 @@ function CloseButton({ onPress, dark }: { onPress: () => void; dark?: boolean })
       onPress={onPress}
       style={[styles.roundButton, dark && styles.roundButtonLight]}
     >
-      <Ionicons name="close" size={24} color={dark ? colors.deepGreen : colors.white} />
+      <Ionicons name="close" size={24} color={dark ? colors.ink : colors.white} />
     </Pressable>
   );
 }
@@ -201,14 +203,14 @@ function ManualEntry({
         onSubmitEditing={() => valid && lookup(digits)}
       />
       <Button title="Найти" disabled={!valid} onPress={() => lookup(digits)} />
-      <Button title="Назад к камере" variant="ghost" onPress={reset} />
+      <Button title="Назад к камере" variant="soft" onPress={reset} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  dark: { flex: 1, backgroundColor: colors.deepGreen },
-  light: { flex: 1, backgroundColor: colors.cream, padding: spacing.sm },
+  dark: { flex: 1, backgroundColor: colors.ink },
+  light: { flex: 1, backgroundColor: colors.bg, padding: spacing.sm },
   topBar: {
     position: 'absolute',
     left: 0,
@@ -225,27 +227,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'rgba(7, 19, 4, 0.6)',
   },
-  roundButtonActive: { backgroundColor: colors.lime },
+  roundButtonActive: { backgroundColor: colors.scan },
   roundButtonLight: { backgroundColor: colors.white },
   frameArea: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: spacing.sm },
-  frame: { width: 280, height: 160, borderRadius: radii.md, borderWidth: 3, borderColor: colors.lime },
+  frame: { width: 280, height: 160, borderRadius: radii.card, borderWidth: 3, borderColor: colors.white },
   hint: { ...typography.bodyStrong, color: colors.white },
   sheet: {
     backgroundColor: colors.white,
-    borderTopLeftRadius: radii.lg,
-    borderTopRightRadius: radii.lg,
+    borderTopLeftRadius: radii.sheet,
+    borderTopRightRadius: radii.sheet,
     padding: spacing.md,
   },
   sheetBody: { gap: spacing.xs },
   searching: { alignItems: 'center', gap: spacing.xs, paddingVertical: spacing.sm },
-  sheetTitle: { ...typography.heading, color: colors.deepGreen },
+  sheetTitle: { ...typography.heading, color: colors.ink },
   sheetText: { ...typography.body, color: colors.muted, marginBottom: spacing.xs },
   codeInput: {
-    ...typography.title,
-    color: colors.deepGreen,
+    fontFamily: 'Onest_600SemiBold', fontSize: 24,
+    color: colors.ink,
     height: 56,
     borderRadius: radii.sm,
-    backgroundColor: colors.cream,
+    backgroundColor: colors.bg,
     paddingHorizontal: spacing.sm,
     letterSpacing: 2,
     marginBottom: spacing.xs,

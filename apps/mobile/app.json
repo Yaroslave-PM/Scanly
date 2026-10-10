@@ -17,6 +17,12 @@
           "cameraPermission": "Камера нужна, чтобы считать штрихкод товара. Фото и видео никуда не отправляются.",
           "recordAudioAndroid": false
         }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Геолокация нужна, чтобы показать магазины и цены рядом с вами."
+        }
       ]
     ],
     "ios": {

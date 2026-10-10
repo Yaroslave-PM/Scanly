@@ -82,6 +82,34 @@ export const ProductSearchResponse = z.object({
 });
 export type ProductSearchResponse = z.infer<typeof ProductSearchResponse>;
 
+export const NearbyStore = z.object({
+  id: z.string().uuid(),
+  name: z.string(),
+  chain: z.string().nullable(),
+  address: z.string().nullable(),
+  lat: z.number(),
+  lng: z.number(),
+  distanceM: z.number().int(),
+});
+export type NearbyStore = z.infer<typeof NearbyStore>;
+
+export const NearbyStoresResponse = z.object({ items: z.array(NearbyStore) });
+export type NearbyStoresResponse = z.infer<typeof NearbyStoresResponse>;
+
+/** Цена товара в конкретном магазине для экрана сравнения. */
+export const PriceOffer = z.object({
+  id: z.string().uuid(),
+  amount: z.number(),
+  currency: z.string().length(3),
+  observedAt: z.string().datetime(),
+  source: PriceSource,
+  store: NearbyStore,
+});
+export type PriceOffer = z.infer<typeof PriceOffer>;
+
+export const ProductPricesResponse = z.object({ items: z.array(PriceOffer) });
+export type ProductPricesResponse = z.infer<typeof ProductPricesResponse>;
+
 export const ApiError = z.object({
   code: z.string(),
   message: z.string(),

@@ -1,7 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import type { ComponentProps, ReactNode } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
-import { colors, spacing, typography } from '../theme';
+import { colors, radii, spacing, typography } from '../theme';
 
 interface Props {
   icon?: ComponentProps<typeof Ionicons>['name'];
@@ -16,10 +16,10 @@ export function StateView({ icon, loading, title, text, children }: Props) {
   return (
     <View style={styles.wrap}>
       {loading ? (
-        <ActivityIndicator size="large" color={colors.green} />
+        <ActivityIndicator size="large" color={colors.primary} />
       ) : icon ? (
         <View style={styles.icon}>
-          <Ionicons name={icon} size={32} color={colors.deepGreen} />
+          <Ionicons name={icon} size={30} color={colors.primary} />
         </View>
       ) : null}
       <Text style={styles.title}>{title}</Text>
@@ -30,17 +30,17 @@ export function StateView({ icon, loading, title, text, children }: Props) {
 }
 
 const styles = StyleSheet.create({
-  wrap: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: spacing.lg, gap: spacing.xs },
+  wrap: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: spacing.xl, gap: spacing.xs },
   icon: {
     width: 64,
     height: 64,
-    borderRadius: 32,
-    backgroundColor: colors.softGreen,
+    borderRadius: radii.pill,
+    backgroundColor: colors.soft,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: spacing.xs,
   },
-  title: { ...typography.heading, color: colors.deepGreen, textAlign: 'center' },
+  title: { ...typography.heading, color: colors.ink, textAlign: 'center' },
   text: { ...typography.body, color: colors.muted, textAlign: 'center' },
-  actions: { alignSelf: 'stretch', gap: spacing.xs, marginTop: spacing.sm },
+  actions: { alignSelf: 'stretch', gap: spacing.xs, marginTop: spacing.md },
 });

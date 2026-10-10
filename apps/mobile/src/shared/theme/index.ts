@@ -1,1 +1,1 @@
-export { theme, colors, spacing, radii, typography, shadows } from '@scanly/design-tokens';
+export { theme, colors, gradients, spacing, radii, sizes, typography, shadows, fontFamily } from '@scanly/design-tokens';

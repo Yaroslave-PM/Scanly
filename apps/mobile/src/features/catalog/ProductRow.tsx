@@ -1,25 +1,15 @@
 import type { ProductListItem } from '@scanly/contracts';
-import { Image } from 'expo-image';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { formatQuantity } from '@/shared/lib/format';
 import { colors, radii, spacing, typography } from '@/shared/theme';
+import { PackshotTile } from './PackshotTile';
 
-/** Строка товара в поиске и подборках: фото, название, бренд и вес, рейтинг. */
+/** Строка товара в поиске и избранном: миниатюра на подложке, название, бренд и вес. */
 export function ProductRow({ item, onPress }: { item: ProductListItem; onPress: () => void }) {
   const meta = [item.brand, formatQuantity(item.netQuantity, item.unit)].filter(Boolean).join(' · ');
   return (
-    <Pressable
-      accessibilityRole="button"
-      onPress={onPress}
-      style={({ pressed }) => [styles.row, pressed && styles.pressed]}
-    >
-      <View style={styles.thumb}>
-        {item.imageUrl ? (
-          <Image source={item.imageUrl} style={styles.image} contentFit="contain" transition={150} />
-        ) : (
-          <Text style={styles.noImage}>нет фото</Text>
-        )}
-      </View>
+    <Pressable accessibilityRole="button" onPress={onPress} style={({ pressed }) => [styles.row, pressed && styles.pressed]}>
+      <PackshotTile imageUrl={item.imageUrl} size={64} radius={radii.tile} />
       <View style={styles.body}>
         <Text style={styles.name} numberOfLines={2}>
           {item.name}
@@ -29,9 +19,6 @@ export function ProductRow({ item, onPress }: { item: ProductListItem; onPress: 
             {meta}
           </Text>
         ) : null}
-        <Text style={styles.rating}>
-          {item.rating.count ? `★ ${item.rating.average.toFixed(1)} · ${item.rating.count}` : 'Пока без отзывов'}
-        </Text>
       </View>
     </Pressable>
   );
@@ -40,25 +27,14 @@ export function ProductRow({ item, onPress }: { item: ProductListItem; onPress: 
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
+    alignItems: 'center',
     gap: spacing.sm,
     padding: spacing.sm,
-    backgroundColor: colors.white,
-    borderRadius: radii.md,
+    backgroundColor: colors.surface,
+    borderRadius: radii.card,
   },
   pressed: { opacity: 0.85 },
-  thumb: {
-    width: 72,
-    height: 72,
-    borderRadius: radii.sm,
-    backgroundColor: colors.cream,
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'hidden',
-  },
-  image: { width: 64, height: 64 },
-  noImage: { ...typography.caption, color: colors.muted },
-  body: { flex: 1, gap: spacing.xxs, justifyContent: 'center' },
-  name: { ...typography.bodyStrong, color: colors.deepGreen },
+  body: { flex: 1, gap: 2 },
+  name: { ...typography.subheading, color: colors.ink },
   meta: { ...typography.caption, color: colors.muted },
-  rating: { ...typography.caption, color: colors.green },
 });

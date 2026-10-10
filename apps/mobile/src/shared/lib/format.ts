@@ -14,6 +14,20 @@ export function formatNumber(value: number): string {
   return number.format(value);
 }
 
+/** «350 м», «1,2 км». */
+export function formatDistance(meters: number): string {
+  if (meters < 1000) return `${Math.max(10, Math.round(meters / 10) * 10)} м`;
+  return `${number.format(Math.round(meters / 100) / 10)} км`;
+}
+
+/** «сегодня», «вчера», «3 дня назад» для даты обновления цены. */
+export function formatUpdated(iso: string): string {
+  const days = Math.floor((Date.now() - new Date(iso).getTime()) / 86_400_000);
+  if (days <= 0) return 'сегодня';
+  if (days === 1) return 'вчера';
+  return `${days} ${plural(days, ['день', 'дня', 'дней'])} назад`;
+}
+
 /** 1 отзыв, 2 отзыва, 5 отзывов. */
 export function plural(n: number, [one, few, many]: [string, string, string]): string {
   const mod10 = n % 10;
