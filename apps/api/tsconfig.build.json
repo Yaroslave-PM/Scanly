@@ -1,4 +1,6 @@
 {
   "extends": "./tsconfig.json",
+  // Без incremental: nest build чистит dist, а старый tsbuildinfo говорит tsc, что выпускать нечего.
+  "compilerOptions": { "incremental": false },
   "exclude": ["node_modules", "dist", "src/**/*.spec.ts"]
 }
