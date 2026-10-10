@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.4.2",
+    "@expo/vector-icons": "^15.1.1",
+    "@scanly/contracts": "workspace:*",
     "@scanly/design-tokens": "workspace:*",
     "@tanstack/react-query": "^5.104.1",
     "expo": "~57.0.27",

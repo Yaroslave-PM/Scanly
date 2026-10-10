@@ -10,7 +10,14 @@
     "plugins": [
       "expo-router",
       "expo-font",
-      "expo-image"
+      "expo-image",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Камера нужна, чтобы считать штрихкод товара. Фото и видео никуда не отправляются.",
+          "recordAudioAndroid": false
+        }
+      ]
     ],
     "ios": {
       "bundleIdentifier": "app.scanly.mobile",
