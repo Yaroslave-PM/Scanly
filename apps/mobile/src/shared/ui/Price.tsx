@@ -1,5 +1,5 @@
 import { StyleSheet, Text } from 'react-native';
-import { colors, typography } from '../theme';
+import { makeStyles, typography } from '../theme';
 
 const formatters = new Map<string, Intl.NumberFormat>();
 
@@ -13,7 +13,8 @@ export function formatPrice(amount: number, currency = 'RUB'): string {
 }
 
 export function Price({ amount, currency }: { amount: number; currency?: string }) {
+  const styles = useStyles();
   return <Text style={styles.price}>{formatPrice(amount, currency)}</Text>;
 }
 
-const styles = StyleSheet.create({ price: { ...typography.price, color: colors.ink } });
+const useStyles = makeStyles(({ colors }) => StyleSheet.create({ price: { ...typography.price, color: colors.ink } }));

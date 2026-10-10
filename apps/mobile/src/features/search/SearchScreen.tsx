@@ -4,7 +4,7 @@ import { ActivityIndicator, FlatList, Keyboard, StyleSheet, Text, View } from 'r
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useProductSearch } from '@/features/catalog/api';
 import { ProductRow } from '@/features/catalog/ProductRow';
-import { colors, spacing, typography } from '@/shared/theme';
+import { makeStyles, spacing, typography, useTheme } from '@/shared/theme';
 import { Button, IconButton, SearchField, StateView } from '@/shared/ui';
 
 function useDebounced(value: string, ms: number) {
@@ -18,6 +18,8 @@ function useDebounced(value: string, ms: number) {
 
 export function SearchScreen() {
   const insets = useSafeAreaInsets();
+  const { colors } = useTheme();
+  const styles = useStyles();
   const [text, setText] = useState('');
   const q = useDebounced(text.trim(), 300);
   const search = useProductSearch(q);
@@ -61,9 +63,11 @@ export function SearchScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: colors.bg },
-  header: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, paddingHorizontal: spacing.md, paddingBottom: spacing.md },
-  list: { paddingHorizontal: spacing.md, gap: 10 },
-  caption: { ...typography.caption, color: colors.muted, marginBottom: spacing.xxs, paddingHorizontal: spacing.xxs },
-});
+const useStyles = makeStyles(({ colors }) =>
+  StyleSheet.create({
+    screen: { flex: 1, backgroundColor: colors.bg },
+    header: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, paddingHorizontal: spacing.md, paddingBottom: spacing.md },
+    list: { paddingHorizontal: spacing.md, gap: 10 },
+    caption: { ...typography.caption, color: colors.muted, marginBottom: spacing.xxs, paddingHorizontal: spacing.xxs },
+  }),
+);

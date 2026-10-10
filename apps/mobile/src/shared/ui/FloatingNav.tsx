@@ -3,7 +3,7 @@ import { router, type Tabs } from 'expo-router';
 import type { ComponentProps } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { colors, radii, shadows, sizes } from '../theme';
+import { makeStyles, radii, shadows, sizes, useTheme } from '../theme';
 
 type IconName = ComponentProps<typeof Ionicons>['name'];
 /** Пропсы tabBar берём из самого Tabs: @react-navigation/bottom-tabs не прямая зависимость. */
@@ -25,6 +25,8 @@ export const NAV_SPACE = NAV_HEIGHT + NAV_BOTTOM + 16;
 /** Плавающее меню-таблетка: 4 круглые кнопки 52 px, активная залита оливковым. */
 export function FloatingNav({ state, navigation }: TabBarProps) {
   const insets = useSafeAreaInsets();
+  const { colors } = useTheme();
+  const styles = useStyles();
   return (
     <View pointerEvents="box-none" style={[styles.wrap, { bottom: Math.max(insets.bottom, NAV_BOTTOM) }]}>
       <View style={styles.bar} accessibilityRole="tablist">
@@ -39,7 +41,7 @@ export function FloatingNav({ state, navigation }: TabBarProps) {
             if (!focused && !event.defaultPrevented) navigation.navigate(route.name);
           };
           const bg = focused ? colors.primary : isScan ? colors.scan : colors.soft;
-          const fg = focused ? colors.white : colors.ink;
+          const fg = focused ? colors.onPrimary : colors.ink;
           return (
             <Pressable
               key={route.key}
@@ -58,16 +60,18 @@ export function FloatingNav({ state, navigation }: TabBarProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  wrap: { position: 'absolute', left: 0, right: 0, alignItems: 'center' },
-  bar: {
-    height: NAV_HEIGHT,
-    flexDirection: 'row',
-    gap: 8,
-    padding: 8,
-    borderRadius: radii.pill,
-    backgroundColor: colors.surface,
-    ...shadows.raised,
-  },
-  item: { width: sizes.nav, height: sizes.nav, borderRadius: sizes.nav / 2, alignItems: 'center', justifyContent: 'center' },
-});
+const useStyles = makeStyles(({ colors }) =>
+  StyleSheet.create({
+    wrap: { position: 'absolute', left: 0, right: 0, alignItems: 'center' },
+    bar: {
+      height: NAV_HEIGHT,
+      flexDirection: 'row',
+      gap: 8,
+      padding: 8,
+      borderRadius: radii.pill,
+      backgroundColor: colors.surface,
+      ...shadows.raised,
+    },
+    item: { width: sizes.nav, height: sizes.nav, borderRadius: sizes.nav / 2, alignItems: 'center', justifyContent: 'center' },
+  }),
+);

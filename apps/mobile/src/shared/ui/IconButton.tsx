@@ -1,16 +1,16 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import type { ComponentProps } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
-import { colors, sizes } from '../theme';
+import { sizes, useTheme, type Colors } from '../theme';
 
 type Tone = 'surface' | 'onPhoto' | 'soft' | 'primary';
 
-const tones: Record<Tone, { bg: string; fg: string }> = {
+const tones = (colors: Colors): Record<Tone, { bg: string; fg: string }> => ({
   surface: { bg: colors.surface, fg: colors.ink },
   onPhoto: { bg: colors.onPhoto, fg: colors.white },
   soft: { bg: colors.soft, fg: colors.ink },
-  primary: { bg: colors.primary, fg: colors.white },
-};
+  primary: { bg: colors.primary, fg: colors.onPrimary },
+});
 
 interface Props {
   icon: ComponentProps<typeof Ionicons>['name'];
@@ -23,7 +23,8 @@ interface Props {
 
 /** Круглая кнопка с иконкой: «назад», «в избранное», «моё место». */
 export function IconButton({ icon, label, onPress, tone = 'surface', size = sizes.icon, radius }: Props) {
-  const t = tones[tone];
+  const { colors } = useTheme();
+  const t = tones(colors)[tone];
   return (
     <Pressable
       accessibilityRole="button"

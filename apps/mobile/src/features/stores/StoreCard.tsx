@@ -1,7 +1,7 @@
 import type { NearbyStore } from '@scanly/contracts';
 import { StyleSheet, Text, View } from 'react-native';
 import { formatDistance } from '@/shared/lib/format';
-import { colors, radii, spacing, typography } from '@/shared/theme';
+import { makeStyles, radii, spacing, typography } from '@/shared/theme';
 
 interface Props {
   store: NearbyStore;
@@ -12,6 +12,7 @@ interface Props {
 
 /** Магазин в списке: буква сети на плашке, адрес и расстояние, цена справа, если она известна. */
 export function StoreCard({ store, price, updated, best }: Props) {
+  const styles = useStyles();
   const title = store.chain ?? store.name;
   return (
     <View style={styles.card}>
@@ -42,30 +43,32 @@ export function StoreCard({ store, price, updated, best }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
-  card: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-    padding: spacing.sm,
-    borderRadius: radii.card,
-    backgroundColor: colors.surface,
-  },
-  logo: {
-    width: 56,
-    height: 56,
-    borderRadius: radii.tile,
-    backgroundColor: colors.soft,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  letter: { fontFamily: 'Onest_700Bold', fontSize: 20, color: colors.good },
-  body: { flex: 1, minWidth: 0, gap: 2 },
-  titleRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs },
-  title: { ...typography.subheading, color: colors.ink, flexShrink: 1 },
-  badge: { height: 22, paddingHorizontal: spacing.xs, borderRadius: 11, backgroundColor: colors.primary, justifyContent: 'center' },
-  badgeText: { fontFamily: 'Onest_700Bold', fontSize: 11, color: colors.white },
-  muted: { ...typography.caption, color: colors.muted },
-  small: { ...typography.small, fontFamily: 'Onest_400Regular', color: colors.muted },
-  price: { ...typography.price, color: colors.ink },
-});
+const useStyles = makeStyles(({ colors }) =>
+  StyleSheet.create({
+    card: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.sm,
+      padding: spacing.sm,
+      borderRadius: radii.card,
+      backgroundColor: colors.surface,
+    },
+    logo: {
+      width: 56,
+      height: 56,
+      borderRadius: radii.tile,
+      backgroundColor: colors.soft,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    letter: { fontFamily: 'Onest_700Bold', fontSize: 20, color: colors.good },
+    body: { flex: 1, minWidth: 0, gap: 2 },
+    titleRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs },
+    title: { ...typography.subheading, color: colors.ink, flexShrink: 1 },
+    badge: { height: 22, paddingHorizontal: spacing.xs, borderRadius: 11, backgroundColor: colors.primary, justifyContent: 'center' },
+    badgeText: { fontFamily: 'Onest_700Bold', fontSize: 11, color: colors.onPrimary },
+    muted: { ...typography.caption, color: colors.muted },
+    small: { ...typography.small, fontFamily: 'Onest_400Regular', color: colors.muted },
+    price: { ...typography.price, color: colors.ink },
+  }),
+);

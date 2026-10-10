@@ -8,7 +8,7 @@ import MapView, { Marker, type Region } from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CITY, useLocation, type Point } from '@/shared/hooks/useLocation';
 import { formatUpdated, plural } from '@/shared/lib/format';
-import { colors, radii, sizes, spacing, typography } from '@/shared/theme';
+import { makeStyles, radii, sizes, spacing, typography, useTheme } from '@/shared/theme';
 import { Card, formatPrice, IconButton, StateView } from '@/shared/ui';
 import { useNearbyStores, useProductPrices } from './api';
 import { StoreCard } from './StoreCard';
@@ -24,6 +24,8 @@ const regionAround = (p: Point): Region => ({ latitude: p.lat, longitude: p.lng,
 
 export function StoresMapScreen({ product, bottomInset = 0 }: Props) {
   const insets = useSafeAreaInsets();
+  const { colors, scheme } = useTheme();
+  const styles = useStyles();
   const { height } = useWindowDimensions();
   const location = useLocation();
   const point = location.status === 'ready' ? location.point : null;
@@ -63,6 +65,7 @@ export function StoresMapScreen({ product, bottomInset = 0 }: Props) {
             showsMyLocationButton={false}
             showsPointsOfInterests={false}
             toolbarEnabled={false}
+            userInterfaceStyle={scheme}
           >
             {pins.map((p) => (
               <Marker key={p.key} coordinate={{ latitude: p.store.lat, longitude: p.store.lng }} tracksViewChanges={false}>
@@ -145,6 +148,7 @@ export function StoresMapScreen({ product, bottomInset = 0 }: Props) {
 }
 
 function Segment({ value, onChange }: { value: 'price' | 'distance'; onChange: (v: 'price' | 'distance') => void }) {
+  const styles = useStyles();
   const options = [
     ['price', 'Дешевле'],
     ['distance', 'Ближе'],
@@ -186,70 +190,72 @@ function useAddress(point: Point | null) {
   return address;
 }
 
-const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: colors.bg },
-  mapPlaceholder: { backgroundColor: colors.soft },
-  topBar: {
-    position: 'absolute',
-    left: spacing.gutter,
-    right: spacing.gutter,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  cityChip: {
-    height: sizes.icon,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    paddingHorizontal: spacing.md,
-    borderRadius: radii.pill,
-    backgroundColor: colors.surface,
-  },
-  cityText: { ...typography.body, fontFamily: 'Onest_500Medium', color: colors.ink },
-  segment: { height: sizes.icon, flexDirection: 'row', padding: 4, gap: 4, borderRadius: radii.pill, backgroundColor: colors.surface },
-  segmentItem: { height: 36, paddingHorizontal: spacing.md, borderRadius: 18, justifyContent: 'center' },
-  segmentOn: { backgroundColor: colors.primary },
-  segmentText: { ...typography.body, fontFamily: 'Onest_500Medium', color: colors.ink },
-  segmentTextOn: { fontFamily: 'Onest_600SemiBold', color: colors.white },
-  pin: {
-    height: 32,
-    minWidth: 32,
-    paddingHorizontal: spacing.sm,
-    borderRadius: 16,
-    backgroundColor: colors.surface,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: colors.line,
-  },
-  pinBest: { backgroundColor: colors.best, borderColor: colors.best },
-  pinText: { fontFamily: 'Onest_600SemiBold', fontSize: 14, color: colors.ink },
-  pinTextBest: { fontFamily: 'Onest_700Bold', color: colors.white },
-  addressPill: {
-    position: 'absolute',
-    left: spacing.gutter,
-    right: spacing.gutter,
-    height: sizes.field,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    paddingHorizontal: 18,
-    borderRadius: radii.pill,
-    backgroundColor: colors.surface,
-  },
-  addressText: { ...typography.body, color: colors.ink, flex: 1 },
-  sheet: {
-    flex: 1,
-    marginTop: -radii.sheet,
-    paddingTop: spacing.gutter,
-    borderTopLeftRadius: radii.sheet,
-    borderTopRightRadius: radii.sheet,
-    backgroundColor: colors.bg,
-  },
-  sheetTitle: { ...typography.price, color: colors.ink, paddingHorizontal: spacing.gutter, marginBottom: spacing.sm },
-  list: { paddingHorizontal: spacing.md, gap: 10 },
-  notice: { gap: spacing.xxs },
-  noticeTitle: { ...typography.subheading, color: colors.ink },
-  noticeText: { ...typography.body, color: colors.muted },
-});
+const useStyles = makeStyles(({ colors }) =>
+  StyleSheet.create({
+    screen: { flex: 1, backgroundColor: colors.bg },
+    mapPlaceholder: { backgroundColor: colors.soft },
+    topBar: {
+      position: 'absolute',
+      left: spacing.gutter,
+      right: spacing.gutter,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    cityChip: {
+      height: sizes.icon,
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 6,
+      paddingHorizontal: spacing.md,
+      borderRadius: radii.pill,
+      backgroundColor: colors.surface,
+    },
+    cityText: { ...typography.body, fontFamily: 'Onest_500Medium', color: colors.ink },
+    segment: { height: sizes.icon, flexDirection: 'row', padding: 4, gap: 4, borderRadius: radii.pill, backgroundColor: colors.surface },
+    segmentItem: { height: 36, paddingHorizontal: spacing.md, borderRadius: 18, justifyContent: 'center' },
+    segmentOn: { backgroundColor: colors.primary },
+    segmentText: { ...typography.body, fontFamily: 'Onest_500Medium', color: colors.ink },
+    segmentTextOn: { fontFamily: 'Onest_600SemiBold', color: colors.onPrimary },
+    pin: {
+      height: 32,
+      minWidth: 32,
+      paddingHorizontal: spacing.sm,
+      borderRadius: 16,
+      backgroundColor: colors.surface,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderWidth: 1,
+      borderColor: colors.line,
+    },
+    pinBest: { backgroundColor: colors.best, borderColor: colors.best },
+    pinText: { fontFamily: 'Onest_600SemiBold', fontSize: 14, color: colors.ink },
+    pinTextBest: { fontFamily: 'Onest_700Bold', color: colors.onBest },
+    addressPill: {
+      position: 'absolute',
+      left: spacing.gutter,
+      right: spacing.gutter,
+      height: sizes.field,
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 10,
+      paddingHorizontal: 18,
+      borderRadius: radii.pill,
+      backgroundColor: colors.surface,
+    },
+    addressText: { ...typography.body, color: colors.ink, flex: 1 },
+    sheet: {
+      flex: 1,
+      marginTop: -radii.sheet,
+      paddingTop: spacing.gutter,
+      borderTopLeftRadius: radii.sheet,
+      borderTopRightRadius: radii.sheet,
+      backgroundColor: colors.bg,
+    },
+    sheetTitle: { ...typography.price, color: colors.ink, paddingHorizontal: spacing.gutter, marginBottom: spacing.sm },
+    list: { paddingHorizontal: spacing.md, gap: 10 },
+    notice: { gap: spacing.xxs },
+    noticeTitle: { ...typography.subheading, color: colors.ink },
+    noticeText: { ...typography.body, color: colors.muted },
+  }),
+);

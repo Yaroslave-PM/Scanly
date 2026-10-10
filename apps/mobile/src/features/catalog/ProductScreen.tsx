@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { toggleFavorite, useIsFavorite } from '@/features/favorites/store';
 import { formatNumber, formatQuantity } from '@/shared/lib/format';
-import { colors, radii, sizes, spacing, typography } from '@/shared/theme';
+import { makeStyles, radii, sizes, spacing, typography } from '@/shared/theme';
 import { Button, Card, Chip, formatPrice, IconButton, Rating, StateView } from '@/shared/ui';
 import { useProduct } from './api';
 import { PackshotTile } from './PackshotTile';
@@ -13,6 +13,7 @@ const TILE_HEIGHT = 340;
 
 export function ProductScreen({ id }: { id: string }) {
   const insets = useSafeAreaInsets();
+  const styles = useStyles();
   const { data, error, isPending, refetch } = useProduct(id);
   const favorite = useIsFavorite(id);
   const back = () => (router.canGoBack() ? router.back() : router.replace('/'));
@@ -81,6 +82,7 @@ export function ProductScreen({ id }: { id: string }) {
 
 /** Строка из четырёх показателей между тонкими линиями. Нет данных: прочерк, без выдумок. */
 function Stats({ card }: { card: ProductCard }) {
+  const styles = useStyles();
   const n = card.nutrition;
   const g = (v: number | null | undefined) => (v == null ? '—' : `${formatNumber(v)} г`);
   const stats = [
@@ -102,6 +104,7 @@ function Stats({ card }: { card: ProductCard }) {
 }
 
 function Reviews({ card }: { card: ProductCard }) {
+  const styles = useStyles();
   return (
     <Card tone="muted" style={styles.reviews}>
       <Text style={styles.blockTitle}>Что говорят покупатели</Text>
@@ -140,6 +143,7 @@ const EXTRA = [
 ] as const;
 
 function Composition({ card }: { card: ProductCard }) {
+  const styles = useStyles();
   const { ingredients, allergens, unit } = card.product;
   const n = card.nutrition;
   const per = unit === 'ml' || unit === 'l' ? '100 мл' : '100 г';
@@ -170,49 +174,51 @@ function Composition({ card }: { card: ProductCard }) {
   );
 }
 
-const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: colors.surface },
-  tile: { width: '100%' },
-  topBar: {
-    position: 'absolute',
-    left: spacing.gutter,
-    right: spacing.gutter,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  sheet: {
-    marginTop: -radii.sheet,
-    paddingTop: spacing.lg,
-    paddingHorizontal: spacing.gutter,
-    gap: spacing.gutter,
-    borderTopLeftRadius: radii.sheet,
-    borderTopRightRadius: radii.sheet,
-    backgroundColor: colors.surface,
-  },
-  titleBlock: { gap: 6 },
-  title: { ...typography.title, color: colors.ink },
-  meta: { ...typography.body, color: colors.muted },
-  stats: {
-    flexDirection: 'row',
-    gap: spacing.xs,
-    paddingVertical: 14,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: colors.line,
-  },
-  stat: { flex: 1, gap: 4 },
-  statLabel: { ...typography.small, fontFamily: 'Onest_400Regular', color: colors.muted },
-  statValue: { ...typography.stat, color: colors.ink },
-  reviews: { gap: 10 },
-  blockTitle: { ...typography.subheading, color: colors.ink },
-  body: { ...typography.body, color: colors.ink },
-  mutedBody: { ...typography.body, color: colors.muted },
-  composition: { gap: spacing.xs },
-  chips: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs },
-  extra: { marginTop: spacing.xs, gap: spacing.xxs },
-  extraTitle: { ...typography.small, color: colors.muted },
-  extraRow: { flexDirection: 'row', justifyContent: 'space-between' },
-  extraValue: { ...typography.body, fontFamily: 'Onest_600SemiBold', color: colors.ink },
-  attribution: { ...typography.small, fontFamily: 'Onest_400Regular', color: colors.muted },
-  cta: { position: 'absolute', left: spacing.gutter, right: spacing.gutter },
-});
+const useStyles = makeStyles(({ colors }) =>
+  StyleSheet.create({
+    screen: { flex: 1, backgroundColor: colors.surface },
+    tile: { width: '100%' },
+    topBar: {
+      position: 'absolute',
+      left: spacing.gutter,
+      right: spacing.gutter,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    sheet: {
+      marginTop: -radii.sheet,
+      paddingTop: spacing.lg,
+      paddingHorizontal: spacing.gutter,
+      gap: spacing.gutter,
+      borderTopLeftRadius: radii.sheet,
+      borderTopRightRadius: radii.sheet,
+      backgroundColor: colors.surface,
+    },
+    titleBlock: { gap: 6 },
+    title: { ...typography.title, color: colors.ink },
+    meta: { ...typography.body, color: colors.muted },
+    stats: {
+      flexDirection: 'row',
+      gap: spacing.xs,
+      paddingVertical: 14,
+      borderTopWidth: 1,
+      borderBottomWidth: 1,
+      borderColor: colors.line,
+    },
+    stat: { flex: 1, gap: 4 },
+    statLabel: { ...typography.small, fontFamily: 'Onest_400Regular', color: colors.muted },
+    statValue: { ...typography.stat, color: colors.ink },
+    reviews: { gap: 10 },
+    blockTitle: { ...typography.subheading, color: colors.ink },
+    body: { ...typography.body, color: colors.ink },
+    mutedBody: { ...typography.body, color: colors.muted },
+    composition: { gap: spacing.xs },
+    chips: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs },
+    extra: { marginTop: spacing.xs, gap: spacing.xxs },
+    extraTitle: { ...typography.small, color: colors.muted },
+    extraRow: { flexDirection: 'row', justifyContent: 'space-between' },
+    extraValue: { ...typography.body, fontFamily: 'Onest_600SemiBold', color: colors.ink },
+    attribution: { ...typography.small, fontFamily: 'Onest_400Regular', color: colors.muted },
+    cta: { position: 'absolute', left: spacing.gutter, right: spacing.gutter },
+  }),
+);

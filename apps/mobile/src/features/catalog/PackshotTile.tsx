@@ -3,7 +3,7 @@ import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import type { ReactNode } from 'react';
 import { StyleSheet, type ViewStyle } from 'react-native';
-import { colors, gradients } from '@/shared/theme';
+import { useTheme } from '@/shared/theme';
 
 interface Props {
   imageUrl: string | null;
@@ -23,6 +23,7 @@ interface Props {
  */
 export function PackshotTile({ imageUrl, size, width, height, radius = 0, fill = 0.72, style, children }: Props) {
   // Без ширины подложка тянется по родителю (style), упаковку тогда меряем по высоте.
+  const { colors, gradients } = useTheme();
   const h = height ?? size ?? 64;
   const w = width ?? size;
   const inner = Math.min(w ?? h, h) * fill;

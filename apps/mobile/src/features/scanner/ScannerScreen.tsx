@@ -19,7 +19,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { catalogKeys, fetchByBarcode } from '@/features/catalog/api';
 import { ApiError } from '@/shared/api/client';
-import { colors, radii, spacing, typography } from '@/shared/theme';
+import { makeStyles, radii, spacing, typography, useTheme } from '@/shared/theme';
 import { Button, StateView } from '@/shared/ui';
 
 type ScanState =
@@ -33,6 +33,8 @@ const BARCODE_TYPES = ['ean13', 'ean8', 'upc_a', 'upc_e'] as const;
 
 export function ScannerScreen() {
   const insets = useSafeAreaInsets();
+  const { colors } = useTheme();
+  const styles = useStyles();
   const queryClient = useQueryClient();
   const [permission, requestPermission] = useCameraPermissions();
   const [state, setState] = useState<ScanState>({ kind: 'scanning' });
@@ -163,6 +165,8 @@ export function ScannerScreen() {
 }
 
 function CloseButton({ onPress, dark }: { onPress: () => void; dark?: boolean }) {
+  const { colors } = useTheme();
+  const styles = useStyles();
   return (
     <Pressable
       accessibilityRole="button"
@@ -186,6 +190,8 @@ function ManualEntry({
   lookup: (code: string) => Promise<void>;
   reset: () => void;
 }) {
+  const { colors, isDark } = useTheme();
+  const styles = useStyles();
   const digits = manualCode.replace(/\D/g, '');
   const valid = digits.length === 8 || digits.length === 12 || digits.length === 13;
   return (
@@ -196,6 +202,7 @@ function ManualEntry({
         value={manualCode}
         onChangeText={setManualCode}
         keyboardType="number-pad"
+        keyboardAppearance={isDark ? 'dark' : 'light'}
         maxLength={14}
         placeholder="4600000000000"
         placeholderTextColor={colors.muted}
@@ -208,48 +215,50 @@ function ManualEntry({
   );
 }
 
-const styles = StyleSheet.create({
-  dark: { flex: 1, backgroundColor: colors.ink },
-  light: { flex: 1, backgroundColor: colors.bg, padding: spacing.sm },
-  topBar: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: spacing.sm,
-  },
-  roundButton: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(7, 19, 4, 0.6)',
-  },
-  roundButtonActive: { backgroundColor: colors.scan },
-  roundButtonLight: { backgroundColor: colors.white },
-  frameArea: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: spacing.sm },
-  frame: { width: 280, height: 160, borderRadius: radii.card, borderWidth: 3, borderColor: colors.white },
-  hint: { ...typography.bodyStrong, color: colors.white },
-  sheet: {
-    backgroundColor: colors.white,
-    borderTopLeftRadius: radii.sheet,
-    borderTopRightRadius: radii.sheet,
-    padding: spacing.md,
-  },
-  sheetBody: { gap: spacing.xs },
-  searching: { alignItems: 'center', gap: spacing.xs, paddingVertical: spacing.sm },
-  sheetTitle: { ...typography.heading, color: colors.ink },
-  sheetText: { ...typography.body, color: colors.muted, marginBottom: spacing.xs },
-  codeInput: {
-    fontFamily: 'Onest_600SemiBold', fontSize: 24,
-    color: colors.ink,
-    height: 56,
-    borderRadius: radii.sm,
-    backgroundColor: colors.bg,
-    paddingHorizontal: spacing.sm,
-    letterSpacing: 2,
-    marginBottom: spacing.xs,
-  },
-});
+const useStyles = makeStyles(({ colors }) =>
+  StyleSheet.create({
+    dark: { flex: 1, backgroundColor: colors.camera },
+    light: { flex: 1, backgroundColor: colors.bg, padding: spacing.sm },
+    topBar: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingHorizontal: spacing.sm,
+    },
+    roundButton: {
+      width: 48,
+      height: 48,
+      borderRadius: 24,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: 'rgba(7, 19, 4, 0.6)',
+    },
+    roundButtonActive: { backgroundColor: colors.scan },
+    roundButtonLight: { backgroundColor: colors.surface },
+    frameArea: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: spacing.sm },
+    frame: { width: 280, height: 160, borderRadius: radii.card, borderWidth: 3, borderColor: colors.white },
+    hint: { ...typography.bodyStrong, color: colors.white },
+    sheet: {
+      backgroundColor: colors.surface,
+      borderTopLeftRadius: radii.sheet,
+      borderTopRightRadius: radii.sheet,
+      padding: spacing.md,
+    },
+    sheetBody: { gap: spacing.xs },
+    searching: { alignItems: 'center', gap: spacing.xs, paddingVertical: spacing.sm },
+    sheetTitle: { ...typography.heading, color: colors.ink },
+    sheetText: { ...typography.body, color: colors.muted, marginBottom: spacing.xs },
+    codeInput: {
+      fontFamily: 'Onest_600SemiBold', fontSize: 24,
+      color: colors.ink,
+      height: 56,
+      borderRadius: radii.sm,
+      backgroundColor: colors.bg,
+      paddingHorizontal: spacing.sm,
+      letterSpacing: 2,
+      marginBottom: spacing.xs,
+    },
+  }),
+);

@@ -3,12 +3,13 @@ import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ProductRow } from '@/features/catalog/ProductRow';
 import { useFavorites } from '@/features/favorites/store';
-import { colors, spacing, typography } from '@/shared/theme';
+import { makeStyles, spacing, typography } from '@/shared/theme';
 import { Button, StateView } from '@/shared/ui';
 import { NAV_SPACE } from '@/shared/ui/FloatingNav';
 
 export default function FavoritesTab() {
   const insets = useSafeAreaInsets();
+  const styles = useStyles();
   const items = useFavorites();
   return (
     <View style={[styles.screen, { paddingTop: insets.top + spacing.md }]}>
@@ -35,8 +36,10 @@ export default function FavoritesTab() {
   );
 }
 
-const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: colors.bg },
-  title: { ...typography.title, color: colors.ink, paddingHorizontal: spacing.gutter, marginBottom: spacing.md },
-  list: { paddingHorizontal: spacing.md, gap: 10 },
-});
+const useStyles = makeStyles(({ colors }) =>
+  StyleSheet.create({
+    screen: { flex: 1, backgroundColor: colors.bg },
+    title: { ...typography.title, color: colors.ink, paddingHorizontal: spacing.gutter, marginBottom: spacing.md },
+    list: { paddingHorizontal: spacing.md, gap: 10 },
+  }),
+);
